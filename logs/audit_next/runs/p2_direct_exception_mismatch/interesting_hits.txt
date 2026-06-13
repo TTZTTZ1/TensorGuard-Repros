@@ -1,0 +1,5 @@
+TensorGuard-Repros/logs/audit_next/runs/p2_direct_exception_mismatch/1_torch.LongStorage_300.txt:11:3 > {"exception": "AcceleratorError", "msg": "CUDA error: invalid device ordinal\nGPU device may be out of range, do you have enough GPUs?\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"}
+TensorGuard-Repros/logs/audit_next/runs/p2_direct_exception_mismatch/1_torch.LongStorage_300.txt:16:CPU: AcceleratorError CUDA error: invalid device ordinal
+TensorGuard-Repros/logs/audit_next/runs/p2_direct_exception_mismatch/1_torch.LongStorage_300.txt:18:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+TensorGuard-Repros/logs/audit_next/runs/p2_direct_exception_mismatch/1_torch.LongStorage_300.txt:20:GPU: AcceleratorError CUDA error: invalid device ordinal
+TensorGuard-Repros/logs/audit_next/runs/p2_direct_exception_mismatch/1_torch.LongStorage_300.txt:22:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.

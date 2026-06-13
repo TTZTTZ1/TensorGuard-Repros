@@ -1,0 +1,16 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781368318.290278  629410 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781368318.325958  629410 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781368319.267562  629410 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 9
+Last lines before problem: 
+6 > input_size = 10
+7 > output_size = 5
+8 > args = (input_size, output_size)
+9 > torch.nn.utils.skip_init(module_cls(*args, **kwargs)).bias = torch.nn.init.constant(torch.zeros(output_size).to(output_size).sigmoid())
+BothExecFail 
+CPU: NameError name 'kwargs' is not defined
+GPU: NameError name 'kwargs' is not defined
