@@ -1,0 +1,16 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781367908.282500  603758 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781367908.317913  603758 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781367909.270176  603758 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 7
+Last lines before problem: 
+4 > 
+5 > input_tensor = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+6 > mode_tensor = torch.Tensor.mode(torch.randn(input_tensor.size()[0]), dim=(- 1))
+7 > mode_tensor_tensor = torch.Tensor.mode(mode_tensor, dim=1)
+BothExecFail 
+CPU: TypeError descriptor 'mode' for 'torch._C.TensorBase' objects doesn't apply to a 'torch.return_types.mode' object
+GPU: TypeError descriptor 'mode' for 'torch._C.TensorBase' objects doesn't apply to a 'torch.return_types.mode' object
