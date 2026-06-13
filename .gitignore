@@ -1,0 +1,11 @@
+Results/
+*.zip
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.log
+__pycache__/
+.cache/
+models/
+codex_seed_programs/
