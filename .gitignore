@@ -9,3 +9,9 @@ __pycache__/
 .cache/
 models/
 codex_seed_programs/
+
+logs/api_cluster_review/excluded_generated_or_common_errors.tsv
+logs/api_cluster_review/cluster_summary.tsv
+
+logs/api_cluster_review/excluded_generated_or_common_errors.tsv
+logs/api_cluster_review/cluster_summary.tsv
