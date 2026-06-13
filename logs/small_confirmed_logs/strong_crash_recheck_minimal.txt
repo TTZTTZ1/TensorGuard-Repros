@@ -1,0 +1,84 @@
+===== repro_is_nonzero_internal_assert =====
+----- run 1 -----
+torch: 2.11.0+cu130
+n: tensor(True) dtype: torch.bool shape: torch.Size([])
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_is_nonzero_internal_assert.py", line 8, in <module>
+    result = torch.eye(n)
+RuntimeError: scalar.isIntegral( false) INTERNAL ASSERT FAILED at "/pytorch/torch/csrc/utils/pybind.cpp":27, please report a bug to PyTorch. 
+returncode=1
+----- run 2 -----
+torch: 2.11.0+cu130
+n: tensor(True) dtype: torch.bool shape: torch.Size([])
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_is_nonzero_internal_assert.py", line 8, in <module>
+    result = torch.eye(n)
+RuntimeError: scalar.isIntegral( false) INTERNAL ASSERT FAILED at "/pytorch/torch/csrc/utils/pybind.cpp":27, please report a bug to PyTorch. 
+returncode=1
+----- run 3 -----
+torch: 2.11.0+cu130
+n: tensor(True) dtype: torch.bool shape: torch.Size([])
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_is_nonzero_internal_assert.py", line 8, in <module>
+    result = torch.eye(n)
+RuntimeError: scalar.isIntegral( false) INTERNAL ASSERT FAILED at "/pytorch/torch/csrc/utils/pybind.cpp":27, please report a bug to PyTorch. 
+returncode=1
+===== repro_sparse_mm_invalid_pointer =====
+----- run 1 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_mm_invalid_pointer.py:5: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  mat1 = torch.sparse_coo_tensor(
+torch: 2.11.0+cu130
+before sparse.mm
+free(): invalid pointer
+returncode=134
+----- run 2 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_mm_invalid_pointer.py:5: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  mat1 = torch.sparse_coo_tensor(
+torch: 2.11.0+cu130
+before sparse.mm
+free(): invalid pointer
+returncode=134
+----- run 3 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_mm_invalid_pointer.py:5: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  mat1 = torch.sparse_coo_tensor(
+torch: 2.11.0+cu130
+before sparse.mm
+free(): invalid pointer
+returncode=134
+===== repro_sparse_csr_invalid_next_size =====
+----- run 1 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  sparse_tensor = torch.sparse_csr_tensor(
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  sparse_tensor = torch.sparse_csr_tensor(
+torch: 2.11.0+cu130
+before torch.mm sparse_tensor, sparse_tensor
+tensor(crow_indices=tensor([0, 1, 2]),
+       col_indices=tensor([0, 1]),
+       values=tensor([1., 6.]), size=(2, 2), nnz=2, layout=torch.sparse_csr)
+before torch.mm sparse_tensor, sparse_tensor.t()
+returncode=139
+----- run 2 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  sparse_tensor = torch.sparse_csr_tensor(
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  sparse_tensor = torch.sparse_csr_tensor(
+torch: 2.11.0+cu130
+before torch.mm sparse_tensor, sparse_tensor
+tensor(crow_indices=tensor([0, 1, 2]),
+       col_indices=tensor([0, 1]),
+       values=tensor([1., 6.]), size=(2, 2), nnz=2, layout=torch.sparse_csr)
+before torch.mm sparse_tensor, sparse_tensor.t()
+returncode=139
+----- run 3 -----
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  sparse_tensor = torch.sparse_csr_tensor(
+/workspace/TitanFuzz/bug_repros/strong_crash_review/minimal/repro_sparse_csr_invalid_next_size.py:9: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  sparse_tensor = torch.sparse_csr_tensor(
+torch: 2.11.0+cu130
+before torch.mm sparse_tensor, sparse_tensor
+tensor(crow_indices=tensor([0, 1, 2]),
+       col_indices=tensor([0, 1]),
+       values=tensor([1., 6.]), size=(2, 2), nnz=2, layout=torch.sparse_csr)
+before torch.mm sparse_tensor, sparse_tensor.t()
+returncode=139
