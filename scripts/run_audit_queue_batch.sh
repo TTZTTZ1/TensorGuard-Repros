@@ -15,9 +15,9 @@ QUEUE_NAME="$(basename "$QUEUE" .tsv)"
 OUT_DIR="TensorGuard-Repros/logs/audit_next/runs/${QUEUE_NAME}"
 mkdir -p "$OUT_DIR"
 
-echo "queue=$QUEUE" | tee -a "$OUT_DIR/index.log"
-echo "start=$START limit=$LIMIT timeout=${TIMEOUT_SEC}s" | tee -a "$OUT_DIR/index.log"
-echo "started=$(date '+%F %T')" | tee -a "$OUT_DIR/index.log"
+echo "queue=$QUEUE" | tee -a "$OUT_DIR/index.txt"
+echo "start=$START limit=$LIMIT timeout=${TIMEOUT_SEC}s" | tee -a "$OUT_DIR/index.txt"
+echo "started=$(date '+%F %T')" | tee -a "$OUT_DIR/index.txt"
 
 count=0
 run_count=0
@@ -35,8 +35,8 @@ tail -n +2 "$QUEUE" | while IFS=$'\t' read -r priority bucket score api label so
   fi
 
   safe_label="${label//\//_}"
-  log="$OUT_DIR/${count}_${safe_label}.log"
-  echo "===== queue_index=${count} batch_index=${run_count}/${LIMIT} ${priority} ${label} source=${source} =====" | tee -a "$OUT_DIR/index.log"
+  log="$OUT_DIR/${count}_${safe_label}.txt"
+  echo "===== queue_index=${count} batch_index=${run_count}/${LIMIT} ${priority} ${label} source=${source} =====" | tee -a "$OUT_DIR/index.txt"
 
   if [[ ! -f "$source" ]]; then
     echo "missing source: $source" | tee "$log"
@@ -48,7 +48,7 @@ tail -n +2 "$QUEUE" | while IFS=$'\t' read -r priority bucket score api label so
     > "$log" 2>&1 || true
 done
 
-echo "finished=$(date '+%F %T')" | tee -a "$OUT_DIR/index.log"
+echo "finished=$(date '+%F %T')" | tee -a "$OUT_DIR/index.txt"
 echo "logs written to $OUT_DIR"
 
 grep -RInE 'INTERNAL ASSERT|please report|Segmentation fault|Floating point exception|double free|free\(\)|invalid pointer|invalid next size|Check failed|device-side assert|cudaErrorAssert|AcceleratorError|returncode=13[469]' \
