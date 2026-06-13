@@ -114,6 +114,10 @@ class Candidate:
     score: int
 
 
+def log(message: str) -> None:
+    print(f"[generate-next-audit] {message}", flush=True)
+
+
 def label_to_api(label: str) -> str:
     match = re.match(r"(.+)_\d+$", label)
     return match.group(1) if match else label
@@ -170,7 +174,9 @@ def source_snippet(text: str) -> str:
 def load_sources(results_dir: Path) -> tuple[dict[str, Path], dict[str, str]]:
     source_by_label: dict[str, Path] = {}
     text_by_label: dict[str, str] = {}
-    for path in sorted(results_dir.glob("**/*.py")):
+    paths = sorted(results_dir.glob("**/*.py"))
+    log(f"indexing source files: {len(paths)} python files")
+    for idx, path in enumerate(paths, 1):
         label = path.stem
         try:
             text = path.read_text(errors="replace")
@@ -178,6 +184,9 @@ def load_sources(results_dir: Path) -> tuple[dict[str, Path], dict[str, str]]:
             continue
         source_by_label[label] = path
         text_by_label[label] = text
+        if idx % 2000 == 0:
+            log(f"indexed {idx}/{len(paths)} source files")
+    log(f"indexed source labels: {len(source_by_label)}")
     return source_by_label, text_by_label
 
 
@@ -185,7 +194,8 @@ def candidates_from_sources(results_dir: Path) -> list[Candidate]:
     candidates: list[Candidate] = []
     source_by_label, text_by_label = load_sources(results_dir)
 
-    for label, text in text_by_label.items():
+    log("scanning source-file embedded evidence")
+    for idx, (label, text) in enumerate(text_by_label.items(), 1):
         path = source_by_label[label]
         rel = str(path)
         api = label_to_api(label)
@@ -244,18 +254,26 @@ def candidates_from_sources(results_dir: Path) -> list[Candidate]:
                     score=score,
                 )
             )
+        if idx % 2000 == 0:
+            log(f"scanned {idx}/{len(text_by_label)} source files")
 
     trace = results_dir / "trace.txt"
     if trace.exists():
+        log(f"scanning trace evidence: {trace}")
         trace_text = trace.read_text(errors="replace")
-        for label in sorted(set(LABEL_RE.findall(trace_text))):
+        seen_trace_labels: set[str] = set()
+        trace_matches = list(LABEL_RE.finditer(trace_text))
+        log(f"trace label occurrences: {len(trace_matches)}")
+        for idx, match in enumerate(trace_matches, 1):
+            label = match.group(1)
+            if label in seen_trace_labels:
+                continue
+            seen_trace_labels.add(label)
             if label not in source_by_label:
                 continue
             api = label_to_api(label)
-            around = ""
-            pos = trace_text.find(label)
-            if pos >= 0:
-                around = trace_text[max(0, pos - 600) : pos + 1600]
+            pos = match.start()
+            around = trace_text[max(0, pos - 600) : pos + 1600]
             path = source_by_label[label]
             if has_any(STRONG_PATTERNS, around):
                 hits = ", ".join(first_matching_patterns(STRONG_PATTERNS, around))
@@ -285,7 +303,12 @@ def candidates_from_sources(results_dir: Path) -> list[Candidate]:
                         score=62,
                     )
                 )
+            if idx % 5000 == 0:
+                log(f"processed {idx}/{len(trace_matches)} trace label occurrences")
 
+        log(f"trace unique labels seen: {len(seen_trace_labels)}")
+
+    log(f"raw candidates before dedupe: {len(candidates)}")
     return dedupe_candidates(candidates)
 
 
@@ -385,10 +408,16 @@ def main() -> int:
     repo_dir = Path(args.repo_dir)
     out_dir = Path(args.out_dir) if args.out_dir else repo_dir / "logs" / "audit_next" / "queues"
     out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "README.running.txt").write_text(
+        "Queue generation started. If this file remains without TSV outputs, the generator is still running or was interrupted.\n"
+    )
 
     if not results_dir.exists():
         raise SystemExit(f"results dir not found: {results_dir}")
 
+    log(f"results dir: {results_dir}")
+    log(f"repo dir: {repo_dir}")
+    log(f"output dir: {out_dir}")
     all_candidates = candidates_from_sources(results_dir)
     unreviewed = filter_unreviewed(all_candidates)
 
@@ -401,11 +430,14 @@ def main() -> int:
     write_tsv(out_dir / "p3_clean_logic_candidates.tsv", p3)
     write_tsv(out_dir / "all_unreviewed_candidates.tsv", unreviewed)
     write_summary(out_dir / "README.md", all_candidates, unreviewed)
+    running = out_dir / "README.running.txt"
+    if running.exists():
+        running.unlink()
 
-    print(f"wrote queues to: {out_dir}")
-    print(f"P1 strong crash/internal assert: {len(p1)}")
-    print(f"P2 exception mismatch: {len(p2)}")
-    print(f"P3 clean logic candidates: {len(p3)}")
+    log(f"wrote queues to: {out_dir}")
+    log(f"P1 strong crash/internal assert: {len(p1)}")
+    log(f"P2 exception mismatch: {len(p2)}")
+    log(f"P3 clean logic candidates: {len(p3)}")
     return 0
 
 
