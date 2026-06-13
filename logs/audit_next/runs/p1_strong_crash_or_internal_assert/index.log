@@ -1,0 +1,13 @@
+queue=TensorGuard-Repros/logs/audit_next/queues/p1_strong_crash_or_internal_assert.tsv
+start=1 limit=10 timeout=60s
+started=2026-06-13 16:09:10
+===== queue_index=1 batch_index=1/10 P1 torch.sparse.mm_1075 source=Results/torch/crash/torch.sparse.mm_1075.py =====
+===== queue_index=2 batch_index=2/10 P1 torch.sparse.mm_1087 source=Results/torch/crash/torch.sparse.mm_1087.py =====
+===== queue_index=3 batch_index=3/10 P1 torch.sparse.mm_1580 source=Results/torch/crash/torch.sparse.mm_1580.py =====
+===== queue_index=4 batch_index=4/10 P1 torch.sparse.mm_235 source=Results/torch/crash/torch.sparse.mm_235.py =====
+===== queue_index=5 batch_index=5/10 P1 torch.sparse.mm_400 source=Results/torch/crash/torch.sparse.mm_400.py =====
+===== queue_index=6 batch_index=6/10 P1 torch.sparse_csr_tensor_1011 source=Results/torch/crash/torch.sparse_csr_tensor_1011.py =====
+===== queue_index=7 batch_index=7/10 P1 torch.sparse_csr_tensor_517 source=Results/torch/crash/torch.sparse_csr_tensor_517.py =====
+===== queue_index=8 batch_index=8/10 P1 torch.sparse_csr_tensor_858 source=Results/torch/crash/torch.sparse_csr_tensor_858.py =====
+===== queue_index=9 batch_index=9/10 P1 torch.sparse_csr_tensor_901 source=Results/torch/crash/torch.sparse_csr_tensor_901.py =====
+===== queue_index=10 batch_index=10/10 P1 torch.nn.RNNBase_1109 source=Results/torch/exception/torch.nn.RNNBase_1109.py =====
