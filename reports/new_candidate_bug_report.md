@@ -19,6 +19,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 final output balanced51 rejected/noise | 0 accepted | 51 logs + source snapshots | Quantized/sparse outputs hit TitanFuzz comparator limitations; dropout randomness and generated-code errors rejected |
 | P2 GPU exec remaining rejected/noise | 0 accepted | 13 logs + source snapshots | 11 reruns report `No problem found`; 2 stochastic APIs report `InternalRandomFail` |
 | P2 sparse all rejected/noise | 0 accepted | 1322 logs + source snapshots | 1317 SparseCPU `eq` comparator failures and 5 SparseCsr unsupported-layout comparator failures |
+| P2 numeric remaining all rejected/noise | 0 accepted | 119 logs + source snapshots | `svd`/`qr` decomposition ambiguity, disputed `addmm_` alias family, ill-conditioned linear algebra, conv numeric tolerance, and documented `lstsq` driver differences |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -595,26 +596,90 @@ This batch should not be counted as PyTorch bugs.
 It did not reproduce the earlier strong sparse crashes such as `free(): invalid pointer` or `free(): invalid next size`.
 Future sparse review needs a semantic sparse comparator or targeted replay of known crash-like sources, not the generic TitanFuzz equality path.
 
+### P2 Numeric Remaining All 119
+
+No new accepted candidate was added from this batch.
+This batch closes the remaining P2 `numeric_consistency_check_needed` queue.
+
+Reviewed logs and source snapshots:
+
+```text
+logs/trace_logic_review/queues/p2_numeric_remaining_all.txt
+logs/trace_logic_review/repro_logs/p2_numeric_remaining_all_txt/
+logs/trace_logic_review/repro_logs/p2_numeric_remaining_all_summary.txt
+logs/trace_logic_review/source_snapshots/p2_numeric_remaining_all/
+```
+
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Rejected / disputed alias and in-place mutation family | 23 | `torch.Tensor.addmm_` sources use in-place matrix multiplication with aliased or overlapping inputs, e.g. `torch.Tensor.addmm_(mat1, mat2, mat1.transpose(0, 1))`; this matches the family already rejected by senior review |
+| Rejected / expected linear-algebra ambiguity | 48 | `torch.Tensor.svd` and `torch.svd` differ in `U`, `Vh`, `Vt`, or equivalent vector outputs; singular-vector signs and bases are not unique |
+| Rejected / expected linear-algebra ambiguity | 30 | `torch.qr` differs in `Q`-like outputs; QR signs and bases are not unique, especially for rank-deficient products such as `X.T @ X` |
+| Rejected / ill-conditioned or singular numeric behavior | 9 | `torch.linalg.cond` sources include singular or near-singular matrices, including duplicated rows; logs show `inf` versus huge finite values or rerun `No problem found` |
+| Rejected / invalid numeric setup and amplification | 1 | `torch.linalg.eigvalsh_428` uses non-symmetric input for a Hermitian/eigenvalue API and then applies inverse/divide-by-near-zero operations |
+| Rejected / rank-deficient pseudo-inverse variance | 1 | `torch.pinverse_107` computes pseudo-inverse of all-ones rank-deficient tensors; CPU/GPU SVD threshold differences are amplified into huge values |
+| Rejected / expected conv numeric tolerance | 5 | `conv2d` and `conv_transpose2d` entries are ordinary float convolution outputs or rerun `No problem found`; based on the previous conv deep-dive, these are treated as numeric tolerance/TF32-path cases unless a no-TF32 check proves otherwise |
+| Rejected / documented CPU-CUDA driver behavior | 2 | `torch.linalg.lstsq` CPU and CUDA use different default drivers; PyTorch documentation states CPU defaults to `gelsy`, CUDA defaults to `gels`, and CUDA only supports `gels` assuming full rank |
+
+Representative source review:
+
+```text
+torch.Tensor.addmm__1173.py:
+  torch.Tensor.addmm_(mat1, mat2, mat1.transpose(0, 1))
+  This is the disputed alias/in-place family rather than a clean backend bug.
+
+torch.Tensor.svd_488.py:
+  (U, s, Vh) = torch.Tensor.svd(_input_tensor)
+  The log diff is `U` and `Vh`, not the singular values.
+
+torch.qr_294.py:
+  result = torch.qr(torch.mm(input_data.t(), input_data))[0]
+  The log diff is the `Q` basis of a rank-deficient Gram matrix.
+
+torch.linalg.cond_1002.py:
+  A has duplicated rows, so the matrix is singular.
+  CPU reports `inf`; CUDA reports a huge finite condition number.
+
+torch.linalg.lstsq_552.py:
+  solution = torch.linalg.lstsq(A, B, rcond=0.2)[0]
+  CPU and CUDA produce different solutions, but this matches documented backend-driver behavior.
+```
+
+Conclusion:
+
+This batch should not be counted as PyTorch bugs.
+The P2 queue is now fully reviewed by the current staged plan.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with remaining P2 numeric clusters.
-Avoid re-running already explained high-noise families unless using invariant/tolerance-aware checkers.
-
-Suggested next API groups:
+The next step is P3.
+P3 has 1120 source candidates across 81 API families:
 
 ```text
-torch.linalg.cond / lstsq / eigvalsh
-torch.pinverse
-torch.nn.functional.conv2d / conv_transpose2d
-remaining strong_crash / internal_assert clusters not yet source-reviewed
+max_unpool_index_semantics:       568 sources, 5 API families
+logic_inconsistency_needs_review: 552 sources, 76 API families
 ```
 
-Skip `torch.Tensor.addmm_` for now because the already reviewed in-place/alias families are easy to misclassify and were disputed by the senior student.
-
-If `eigh` or `svd` is reviewed again, use an invariant checker:
+Start with `max_unpool_index_semantics` because it is concentrated in five related APIs:
 
 ```text
-eigh: compare eigenvalues and reconstruction A ~= Q @ diag(w) @ Q.T
-svd: compare singular values and reconstruction A ~= U @ diag(S) @ Vt
+torch.nn.functional.max_unpool1d: 232
+torch.nn.MaxUnpool3d:             225
+torch.nn.functional.max_unpool3d:  76
+torch.nn.MaxUnpool2d:              30
+torch.nn.functional.max_unpool2d:   5
+```
+
+Review rule for P3:
+
+```text
+Do not accept a case only because TitanFuzz reports VarInconsistentCatch.
+Read the generated source, rerun the source, and decide whether the difference is:
+  1. real framework behavior,
+  2. expected API semantics,
+  3. random/generated-code noise,
+  4. or TitanFuzz comparator/instrumentation artifact.
 ```
