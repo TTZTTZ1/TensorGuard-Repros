@@ -1,0 +1,10 @@
+
+input_tensor = torch.ones(4, 4)
+output_tensor = torch.Tensor.to_sparse(torch.eye(4, device=torch.device('cpu')))
+output = torch.spmm(input_tensor, output_tensor)
+output
+torch.mm(torch.ones_like(input_tensor), output_tensor)
+output
+torch.spmm(input_tensor, torch.eye(4, device=torch.device('cpu')))
+output
+torch.mm(input_tensor, output_tensor)

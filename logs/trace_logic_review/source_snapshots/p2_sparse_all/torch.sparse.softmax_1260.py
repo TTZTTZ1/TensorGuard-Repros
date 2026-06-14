@@ -1,0 +1,15 @@
+
+indices = torch.as_tensor([[0, 0, 1, 1], [0, 1, 0, 1]], dtype=torch.long)
+values = torch.tensor([0.5, (- 0.4), 0.6, (- 0.2)], dtype=torch.float32)
+size = torch.Size([2, 2])
+sparse_tensor = torch.sparse_coo_tensor(indices, values, size)
+dim = 0
+result = torch.sparse.softmax(sparse_tensor, dim)
+result = torch.sparse.sum(result, dim, dtype=torch.float32)
+result = torch.sum(result, dim=dim, keepdim=True)
+result = result.detach()
+result.requires_grad_(True)
+with torch.enable_grad():
+    result = torch.exp((- ((result - 1) ** 2)))
+    with torch.enable_grad():
+        result = torch.exp((- ((result - 1) ** 2)))

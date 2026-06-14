@@ -1,0 +1,12 @@
+
+input_tensor = torch.ones(4, 4)
+output_tensor = torch.Tensor.to_sparse(torch.ones(4, 4))
+input_tensor.zero_()
+input_tensor.to('cpu')
+output_tensor.to_dense()
+output_tensor.to('cpu')
+torch.sparse.mm(input_tensor, output_tensor)
+torch.mm(input_tensor, output_tensor)
+torch.spmm(input_tensor, output_tensor.t())
+torch.matmul(input_tensor, output_tensor)
+torch.matmul(input_tensor, output_tensor.t())

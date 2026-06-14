@@ -1,0 +1,11 @@
+
+mat = torch.randn(5, 5)
+mat = torch.spmm(mat, mat)
+mat1 = torch.sparse_coo_tensor(indices=torch.tensor([[0, 1], [2, 3]]), values=torch.tensor([1.0, 2.0]), size=(5, 5))
+mat2 = torch.ones(5, 5, requires_grad=True)
+mat = torch.sparse.mm(mat, mat1)
+mat = (mat + mat2)
+result = torch.sparse.addmm(mat, mat, mat)
+result = torch.spmm(result, mat)
+result = torch.spmm(result, mat)
+result = torch.spmm(result, mat1)
