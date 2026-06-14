@@ -115,6 +115,10 @@ logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_c65536.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_c65536.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_5d_c65536.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_5d_c65536.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_c65536_3runs.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_5d_c65536_3runs.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_5d_c65535.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_5d_c65535.txt
 ```
 
 **Observed behavior:**
@@ -173,6 +177,15 @@ CPU  x.shape: (1, 65536, 4, 4, 4)    -> ok, y.shape: (1, 65536, 1, 1, 1)
 CUDA x.shape: (1, 65536, 4, 4, 4)    -> AcceleratorError: CUDA error: invalid argument
 ```
 
+**Repeat and control validation:**
+
+```text
+4D C=65536 CUDA repro: failed 3/3 with CUDA error: invalid argument
+5D C=65536 CUDA repro: failed 3/3 with CUDA error: invalid argument
+5D C=65535 CPU control: ok, y.shape: (1, 65535, 1, 1, 1)
+5D C=65535 CUDA control: ok, y.shape: (1, 65535, 1, 1, 1)
+```
+
 **Current root-cause hypothesis:**
 
 The failure is strongly tied to the channel dimension crossing `65535`.
@@ -224,23 +237,8 @@ These are not evidence of actual CPU/CUDA output differences. They show that the
 
 ## Next Review Target
 
-Next, finish packaging N1-002:
-
-```text
-Run 3 repeats for:
-1. repro_fractional_max_pool3d_c65536.py cuda:0
-2. repro_fractional_max_pool3d_5d_c65536.py cuda:0
-```
-
-Optionally test the 5D control case:
-
-```text
-x.shape = (1, 65535, 4, 4, 4)
-```
-
-If 5D `C=65535` succeeds and 5D `C=65536` fails, N1-002 is clean enough to send to the senior student as a strong boundary candidate.
-
-After that, continue with P2 `numeric_consistency_check_needed`, but skip alias-heavy APIs first.
+N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
+The next step is to continue with P2 `numeric_consistency_check_needed`, while skipping alias-heavy APIs first.
 
 Suggested next numeric APIs:
 
