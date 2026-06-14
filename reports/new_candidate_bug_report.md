@@ -10,7 +10,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
 | Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
-| Pending candidates | 1 | FFT numeric mismatch family | Needs independent tolerance/finite-mask check before accept/reject |
+| Pending candidates | 1 | FFT numeric mismatch family | Independent check narrowed this to 5 loose-tolerance failures; needs deep-dive before accept/reject |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
 | P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
@@ -359,7 +359,7 @@ These `conv3d` logs are best treated as TF32/cuDNN/CPU floating-point-path diffe
 ### P2 Remaining Numeric Next 30
 
 No new accepted candidate was added from this batch yet.
-One FFT numeric family is pending independent tolerance/finite-mask validation.
+One FFT numeric family is pending a deeper numeric validation.
 
 Reviewed logs and source snapshots:
 
@@ -400,17 +400,46 @@ Independent checker added:
 scripts/check_fft_numeric_batch.py
 ```
 
+Independent check result:
+
+```text
+logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_independent.txt
+```
+
+Findings:
+
+```text
+All representative cases have matching finite masks.
+torch.fft.ifftn_1255 passes 1e-5.
+torch.fft.ihfft_1059 and torch.fft.ihfft_1400 pass 1e-2.
+The remaining loose-tolerance failures are:
+  torch.fft.hfft_570
+  torch.fft.hfft_779
+  torch.fft.hfft_782
+  torch.fft.ihfft_1268
+  torch.fft.ihfft_773
+```
+
+This is not enough to report a bug yet because FFT CPU/GPU implementations can have different rounding behavior, and several differences occur near very small output components.
+However, the `hfft` and selected `ihfft` cases still need a deeper normalized-error check before rejection.
+
+Deep-dive checker added:
+
+```text
+scripts/check_fft_numeric_deep_dive.py
+```
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to run the independent FFT numeric checker.
-Do not accept the FFT family as a bug unless it shows finite-mask mismatch or large error under reasonable tolerances.
+The next step is to run the FFT deep-dive checker.
+Do not accept the FFT family as a bug unless it shows finite-mask mismatch, large normalized error, or a clear float64 CPU/GPU discrepancy that cannot be explained by expected FFT rounding.
 
 Run on the server:
 
 ```bash
-python TensorGuard-Repros/scripts/check_fft_numeric_batch.py \
-  > TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_independent.txt 2>&1
+python TensorGuard-Repros/scripts/check_fft_numeric_deep_dive.py \
+  > TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_deep_dive.txt 2>&1
 ```
 
 Skip `torch.Tensor.addmm_` for now because the already reviewed in-place/alias families are easy to misclassify and were disputed by the senior student.
