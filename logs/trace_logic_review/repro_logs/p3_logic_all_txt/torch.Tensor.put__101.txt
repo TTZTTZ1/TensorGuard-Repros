@@ -1,0 +1,51 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444087.319997 1356436 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444087.358174 1356436 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444088.334658 1356436 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > input_tensor = torch.rand(size=[2, 3], dtype=torch.float32)
+3 > index = torch.tensor([[0, 1], [1, 2]])
+4 > source = torch.tensor([[0.1, 0.2], [0.3, 0.4]])
+5 > output_tensor = torch.Tensor.put_(input_tensor, index, source, accumulate=False)
+VarInconsistentCatch 
+diff:[   'input_tensor',
+    'output_tensor',
+    'PassLogTorchIntermediateTempVar4_output_tensor']
+CPU:
+{   'PassLogTorchIntermediateTempVar1_input_tensor': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]]),
+    'PassLogTorchIntermediateTempVar2_index': tensor([[0, 1],
+        [1, 2]]),
+    'PassLogTorchIntermediateTempVar3_source': tensor([[0.1000, 0.2000],
+        [0.3000, 0.4000]]),
+    'PassLogTorchIntermediateTempVar4_output_tensor': tensor([[0.1000, 0.3000, 0.4000],
+        [0.1028, 0.3475, 0.1554]]),
+    'index': tensor([[0, 1],
+        [1, 2]]),
+    'input_tensor': tensor([[0.1000, 0.3000, 0.4000],
+        [0.1028, 0.3475, 0.1554]]),
+    'output_tensor': tensor([[0.1000, 0.3000, 0.4000],
+        [0.1028, 0.3475, 0.1554]]),
+    'source': tensor([[0.1000, 0.2000],
+        [0.3000, 0.4000]])}
+GPU:
+{   'PassLogTorchIntermediateTempVar1_input_tensor': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_index': tensor([[0, 1],
+        [1, 2]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_source': tensor([[0.1000, 0.2000],
+        [0.3000, 0.4000]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_output_tensor': tensor([[0.1000, 0.2000, 0.4000],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'index': tensor([[0, 1],
+        [1, 2]], device='cuda:0'),
+    'input_tensor': tensor([[0.1000, 0.2000, 0.4000],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'output_tensor': tensor([[0.1000, 0.2000, 0.4000],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'source': tensor([[0.1000, 0.2000],
+        [0.3000, 0.4000]], device='cuda:0')}

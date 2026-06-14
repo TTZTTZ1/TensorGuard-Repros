@@ -1,0 +1,88 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443990.251331 1348480 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781443990.289559 1348480 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443991.263398 1348480 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > x = torch.randn(10)
+3 > result = torch.Tensor.mv((torch.eye(10) + 1), x)
+4 > (torch.is_tensor(result) is True)
+5 > (result.type() == torch.Tensor(result.size()))
+VarInconsistentCatch 
+diff:[   'PassFlattenCallTempVar5',
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar5']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]),
+    'PassFlattenCallTempVar2': True,
+    'PassFlattenCallTempVar4': torch.Size([10]),
+    'PassFlattenCallTempVar5': tensor([ 4.8965e+08,  4.5685e-41,  4.8965e+08,  4.5685e-41, -1.2946e+11,
+         4.5682e-41,  2.8996e+08,  4.5685e-41,  5.7709e-18, -1.5189e-12]),
+    'PassLogTorchIntermediateTempVar1_x': tensor([-1.6977,  0.6374,  0.0781, -0.4140,  1.5172,  0.0473,  0.8435, -0.2261,
+         0.0345, -0.3422]),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]),
+    'PassLogTorchIntermediateTempVar3_result': tensor([-1.2196,  1.1155,  0.5561,  0.0640,  1.9952,  0.5253,  1.3215,  0.2520,
+         0.5126,  0.1358]),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar5': tensor([ 4.8965e+08,  4.5685e-41,  4.8965e+08,  4.5685e-41, -1.2946e+11,
+         4.5682e-41,  2.8996e+08,  4.5685e-41,  5.7709e-18, -1.5189e-12]),
+    'result': tensor([-1.2196,  1.1155,  0.5561,  0.0640,  1.9952,  0.5253,  1.3215,  0.2520,
+         0.5126,  0.1358]),
+    'x': tensor([-1.6977,  0.6374,  0.0781, -0.4140,  1.5172,  0.0473,  0.8435, -0.2261,
+         0.0345, -0.3422])}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]], device='cuda:0'),
+    'PassFlattenCallTempVar2': True,
+    'PassFlattenCallTempVar4': torch.Size([10]),
+    'PassFlattenCallTempVar5': tensor([-3.2119e+05,  3.0862e-41,  0.0000e+00,  0.0000e+00,  1.8888e+31,
+         4.1051e-41,  0.0000e+00,  0.0000e+00, -1.3672e-18,  3.0869e-41],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_x': tensor([-1.6977,  0.6374,  0.0781, -0.4140,  1.5172,  0.0473,  0.8435, -0.2261,
+         0.0345, -0.3422], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_result': tensor([-1.2196,  1.1155,  0.5561,  0.0640,  1.9952,  0.5253,  1.3215,  0.2520,
+         0.5126,  0.1358], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar5': tensor([-3.2119e+05,  3.0862e-41,  0.0000e+00,  0.0000e+00,  1.8888e+31,
+         4.1051e-41,  0.0000e+00,  0.0000e+00, -1.3672e-18,  3.0869e-41],
+       device='cuda:0'),
+    'result': tensor([-1.2196,  1.1155,  0.5561,  0.0640,  1.9952,  0.5253,  1.3215,  0.2520,
+         0.5126,  0.1358], device='cuda:0'),
+    'x': tensor([-1.6977,  0.6374,  0.0781, -0.4140,  1.5172,  0.0473,  0.8435, -0.2261,
+         0.0345, -0.3422], device='cuda:0')}

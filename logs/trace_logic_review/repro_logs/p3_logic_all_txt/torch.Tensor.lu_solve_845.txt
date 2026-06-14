@@ -1,0 +1,104 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443983.632759 1347779 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781443983.671092 1347779 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443984.654860 1347779 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/_tensor.py:938: UserWarning: torch.lu is deprecated in favor of torch.linalg.lu_factor / torch.linalg.lu_factor_ex and will be removed in a future PyTorch release.
+LU, pivots = torch.lu(A, compute_pivots)
+should be replaced with
+LU, pivots = torch.linalg.lu_factor(A, compute_pivots)
+and
+LU, pivots, info = torch.lu(A, compute_pivots, get_infos=True)
+should be replaced with
+LU, pivots, info = torch.linalg.lu_factor_ex(A, compute_pivots) (Triggered internally at /pytorch/aten/src/ATen/native/BatchLinearAlgebra.cpp:2059.)
+  LU, pivots, infos = torch._lu_with_info(
+:6: UserWarning: torch.lu_solve is deprecated in favor of torch.linalg.lu_solveand will be removed in a future PyTorch release.
+Note that torch.linalg.lu_solve has its arguments reversed.
+X = torch.lu_solve(B, LU, pivots)
+should be replaced with
+X = torch.linalg.lu_solve(LU, pivots, B) (Triggered internally at /pytorch/aten/src/ATen/native/BatchLinearAlgebra.cpp:2216.)
+
+FrameworkSingle DuelFinished 420 Problem since line 7
+Last lines before problem: 
+4 > result = torch.Tensor.lu_solve(_input_tensor, LU_data, LU_pivots)
+5 > result = (result + 1)
+6 > result = torch.clamp(result, 0, 1)
+7 > (LU_data, LU_pivots) = result.lu()
+VarInconsistentCatch 
+diff:['LU_pivots']
+CPU:
+{   'LU_data': tensor([[ 1.0000e+00,  1.0000e+00,  1.0000e+00,  1.0000e+00,  1.0000e+00],
+        [ 1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00],
+        [ 1.0000e+00,  0.0000e+00, -5.9605e-08,  0.0000e+00,  0.0000e+00],
+        [ 1.0000e+00,  0.0000e+00, -0.0000e+00,  0.0000e+00,  0.0000e+00],
+        [ 1.0000e+00,  0.0000e+00, -0.0000e+00,  0.0000e+00,  0.0000e+00]]),
+    'LU_pivots': tensor([1, 2, 4, 4, 5], dtype=torch.int32),
+    'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302],
+        [ 0.3826, -0.5131,  0.7104,  1.8092,  0.7538],
+        [ 0.6128, -0.9300, -0.7392,  0.4839,  2.0201],
+        [-0.3333,  1.6243,  0.3298,  0.4856,  0.4131],
+        [-0.0021, -1.1769,  0.8036, -1.2524,  0.7749]]),
+    'PassLogTorchIntermediateTempVar2_result': tensor([[ 1.0000e+00,  0.0000e+00,  9.7272e-08,  4.8636e-07,  0.0000e+00],
+        [ 1.2258e-08,  1.0000e+00, -0.0000e+00,  2.0203e-07, -0.0000e+00],
+        [-1.1940e-08,  0.0000e+00,  1.0000e+00,  9.7879e-08,  2.4470e-08],
+        [-1.2917e-09, -0.0000e+00, -3.9315e-08,  1.0000e+00, -0.0000e+00],
+        [ 2.8964e-08,  0.0000e+00, -2.8964e-08, -1.4482e-08,  1.0000e+00]]),
+    'PassLogTorchIntermediateTempVar3_result': tensor([[2.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 2.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 2.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 2.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 2.0000]]),
+    'PassLogTorchIntermediateTempVar4_result': tensor([[1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000]]),
+    '_input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302],
+        [ 0.3826, -0.5131,  0.7104,  1.8092,  0.7538],
+        [ 0.6128, -0.9300, -0.7392,  0.4839,  2.0201],
+        [-0.3333,  1.6243,  0.3298,  0.4856,  0.4131],
+        [-0.0021, -1.1769,  0.8036, -1.2524,  0.7749]]),
+    'result': tensor([[1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 1.0000]])}
+GPU:
+{   'LU_data': tensor([[1., 1., 1., 1., 1.],
+        [1., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0.]], device='cuda:0'),
+    'LU_pivots': tensor([1, 2, 3, 4, 5], device='cuda:0', dtype=torch.int32),
+    'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302],
+        [ 0.3826, -0.5131,  0.7104,  1.8092,  0.7538],
+        [ 0.6128, -0.9300, -0.7392,  0.4839,  2.0201],
+        [-0.3333,  1.6243,  0.3298,  0.4856,  0.4131],
+        [-0.0021, -1.1769,  0.8036, -1.2524,  0.7749]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_result': tensor([[ 1.0000e+00, -1.7374e-08,  9.9293e-08,  6.3831e-08,  0.0000e+00],
+        [ 6.5882e-09,  1.0000e+00,  1.2483e-08, -1.2829e-08, -0.0000e+00],
+        [-8.3848e-09,  5.4877e-09,  1.0000e+00, -7.3583e-09,  0.0000e+00],
+        [-5.5547e-09, -1.4444e-09, -2.6621e-08,  1.0000e+00, -0.0000e+00],
+        [ 9.8138e-09,  7.6241e-09, -2.3742e-08, -1.9362e-08,  1.0000e+00]],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_result': tensor([[2.0000, 1.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 2.0000, 1.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 2.0000, 1.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 2.0000, 1.0000],
+        [1.0000, 1.0000, 1.0000, 1.0000, 2.0000]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_result': tensor([[1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.]], device='cuda:0'),
+    '_input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302],
+        [ 0.3826, -0.5131,  0.7104,  1.8092,  0.7538],
+        [ 0.6128, -0.9300, -0.7392,  0.4839,  2.0201],
+        [-0.3333,  1.6243,  0.3298,  0.4856,  0.4131],
+        [-0.0021, -1.1769,  0.8036, -1.2524,  0.7749]], device='cuda:0'),
+    'result': tensor([[1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1.]], device='cuda:0')}

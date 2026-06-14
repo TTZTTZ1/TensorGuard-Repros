@@ -1,0 +1,8 @@
+input_tensor = torch.randn(3, 5, requires_grad=True)
+input_tensor = (input_tensor / torch.sum(input_tensor))
+input_tensor = ((input_tensor - 0.5) * torch.abs(input_tensor))
+input_tensor = ((torch.mean(input_tensor) + torch.mean(input_tensor, dim=1, keepdim=True)) + 0.5)
+output = torch.Tensor.bool(torch.rand(3, 3, 5)).bool()
+output_ = (input_tensor * output)
+output_ = torch.Tensor(output_.size()).zero_()
+output_[(..., 0, torch.arange(3))] = 1

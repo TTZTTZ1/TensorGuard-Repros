@@ -1,0 +1,10 @@
+
+other_data = torch.randn(2, 3, 5, 3)
+other_data = torch.Tensor(other_data)
+other = (other_data / torch.sum(other_data))
+other = (other - other.mean())
+other = (other / torch.sum(other))
+other = (other - other.mean())
+other = torch.Tensor(other)
+other = torch.Tensor(other)
+torch.Tensor.sub_(other, other_data)

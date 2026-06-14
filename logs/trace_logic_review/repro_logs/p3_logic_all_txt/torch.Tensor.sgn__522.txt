@@ -1,0 +1,49 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444266.357825 1371017 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444266.396927 1371017 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444267.380382 1371017 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+:14: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:30: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:30: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:14: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:30: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+
+FrameworkSingle DuelFinished 420 Problem since line 6
+Last lines before problem: 
+3 > _input_tensor = torch.linspace((- 10), 10, 10000).to(device)
+4 > _input_tensor = _input_tensor.cpu()
+5 > _input_tensor = torch.tensor(_input_tensor).to('cpu')
+6 > torch.Tensor.sgn_(_input_tensor)
+VarInconsistentCatch 
+diff:['PassFlattenCallTempVar2']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassFlattenCallTempVar2': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.]),
+    'PassFlattenCallTempVar3': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.]),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassLogTorchIntermediateTempVar3__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassLogTorchIntermediateTempVar4__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassLogTorchIntermediateTempVar6__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000]),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar3': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.]),
+    '_input_tensor': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.])}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassFlattenCallTempVar2': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassFlattenCallTempVar3': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6__input_tensor': tensor([-10.0000,  -9.9980,  -9.9960,  ...,   9.9960,   9.9980,  10.0000],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar3': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.], device='cuda:0'),
+    '_input_tensor': tensor([-1., -1., -1.,  ...,  1.,  1.,  1.], device='cuda:0')}

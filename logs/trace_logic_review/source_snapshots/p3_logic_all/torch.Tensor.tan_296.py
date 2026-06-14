@@ -1,0 +1,8 @@
+
+_input_tensor = torch.randn(5, 3, 224, 224)
+_input_tensor = torch.Tensor.tan(_input_tensor)
+torch.allclose(_input_tensor, torch.atan(_input_tensor))
+_input_tensor = torch.Tensor.asinh(_input_tensor)
+_input_tensor = torch.Tensor.atanh(_input_tensor)
+_input_tensor = torch.Tensor.asinh(_input_tensor)
+torch.allclose(_input_tensor, torch.tan(_input_tensor))

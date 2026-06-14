@@ -1,0 +1,11 @@
+
+input = torch.autograd.Variable(torch.zeros(4, 3))
+input = torch.autograd.Variable(input, requires_grad=True)
+input = torch.autograd.Variable(input)
+tau = torch.rand(3)
+result = torch.orgqr(input, tau)
+result = torch.orgqr(result, tau)
+result = torch.orgqr(result, tau)
+result.div_(torch.sum(result))
+result.div_(result.max())
+result.div_(result.min())

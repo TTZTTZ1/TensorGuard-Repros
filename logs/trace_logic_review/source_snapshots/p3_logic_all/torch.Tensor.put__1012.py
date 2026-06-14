@@ -1,0 +1,13 @@
+
+input_tensor = torch.rand(3, 3)
+index = torch.tensor([[0, 1], [1, 2]])
+source = torch.tensor([[0.1, 0.2], [0.3, 0.4]])
+output_tensor = torch.Tensor.put_(input_tensor, index, source, accumulate=False)
+assert (output_tensor.size() == torch.Size([3, 3]))
+assert torch.all(torch.eq(input_tensor, output_tensor))
+output_tensor = output_tensor.to(torch.device('cpu'))
+input_tensor = input_tensor.to('cpu')
+source_tensor = source.to('cpu')
+output_tensor = output_tensor.scatter(1, index, source_tensor)
+assert (output_tensor.size() == torch.Size([3, 3]))
+output_tensor = output_tensor.to('cpu')

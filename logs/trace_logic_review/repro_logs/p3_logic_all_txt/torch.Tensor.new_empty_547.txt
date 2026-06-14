@@ -1,0 +1,23 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444028.850390 1351612 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444028.889075 1351612 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444029.859366 1351612 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 2
+Last lines before problem: 
+1 > 
+2 > input_tensor = torch.Tensor(size=(2, 2))
+VarInconsistentCatch 
+diff:['input_tensor', 'PassLogTorchIntermediateTempVar1_input_tensor']
+CPU:
+{   'PassLogTorchIntermediateTempVar1_input_tensor': tensor([[-7.7135e-07,  3.0866e-41],
+        [ 0.0000e+00,  0.0000e+00]]),
+    'input_tensor': tensor([[-7.7135e-07,  3.0866e-41],
+        [ 0.0000e+00,  0.0000e+00]])}
+GPU:
+{   'PassLogTorchIntermediateTempVar1_input_tensor': tensor([[-1.5871e-03,  3.0866e-41],
+        [ 0.0000e+00,  0.0000e+00]], device='cuda:0'),
+    'input_tensor': tensor([[-1.5871e-03,  3.0866e-41],
+        [ 0.0000e+00,  0.0000e+00]], device='cuda:0')}

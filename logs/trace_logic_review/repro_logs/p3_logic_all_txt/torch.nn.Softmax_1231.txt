@@ -1,0 +1,98 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781445112.513393 1443933 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781445112.552668 1443933 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781445113.546963 1443933 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 3
+Last lines before problem: 
+1 > 
+2 > input = torch.randn(10, 3)
+3 > input_data = torch.Tensor(input.size())
+VarInconsistentCatch 
+diff:['input_data', 'PassLogTorchIntermediateTempVar3_input_data']
+CPU:
+{   'PassFlattenCallTempVar1': torch.Size([10, 3]),
+    'PassLogTorchIntermediateTempVar1_input': tensor([[-0.0070,  0.5044,  0.6704],
+        [-0.3829,  0.0302,  0.3826],
+        [-0.5131,  0.7104,  1.8092],
+        [ 0.4352,  2.6453,  0.2654],
+        [ 0.9235, -0.4376,  2.0201],
+        [-0.3333,  1.6243, -0.3222],
+        [ 0.2299, -0.9675, -0.6336],
+        [ 0.7566,  0.8036, -1.2524],
+        [ 0.7749, -0.1788, -0.4155],
+        [-0.4477, -0.9933, -1.6647]]),
+    'PassLogTorchIntermediateTempVar3_input_data': tensor([[-7.9720e+11,  3.0742e-41,  0.0000e+00],
+        [ 0.0000e+00,  3.0239e-02,  3.8263e-01],
+        [-5.1312e-01,  7.1042e-01,  1.8092e+00],
+        [ 4.3523e-01,  2.6453e+00,  2.6535e-01],
+        [ 9.2350e-01, -4.3756e-01,  2.0201e+00],
+        [-3.3326e-01,  1.6243e+00, -3.2217e-01],
+        [ 2.2995e-01, -9.6751e-01, -6.3356e-01],
+        [ 7.5658e-01,  8.0363e-01, -1.2524e+00],
+        [ 7.7488e-01, -1.7884e-01, -4.1555e-01],
+        [-4.4766e-01, -9.9334e-01, -1.6647e+00]]),
+    'input': tensor([[-0.0070,  0.5044,  0.6704],
+        [-0.3829,  0.0302,  0.3826],
+        [-0.5131,  0.7104,  1.8092],
+        [ 0.4352,  2.6453,  0.2654],
+        [ 0.9235, -0.4376,  2.0201],
+        [-0.3333,  1.6243, -0.3222],
+        [ 0.2299, -0.9675, -0.6336],
+        [ 0.7566,  0.8036, -1.2524],
+        [ 0.7749, -0.1788, -0.4155],
+        [-0.4477, -0.9933, -1.6647]]),
+    'input_data': tensor([[-7.9720e+11,  3.0742e-41,  0.0000e+00],
+        [ 0.0000e+00,  3.0239e-02,  3.8263e-01],
+        [-5.1312e-01,  7.1042e-01,  1.8092e+00],
+        [ 4.3523e-01,  2.6453e+00,  2.6535e-01],
+        [ 9.2350e-01, -4.3756e-01,  2.0201e+00],
+        [-3.3326e-01,  1.6243e+00, -3.2217e-01],
+        [ 2.2995e-01, -9.6751e-01, -6.3356e-01],
+        [ 7.5658e-01,  8.0363e-01, -1.2524e+00],
+        [ 7.7488e-01, -1.7884e-01, -4.1555e-01],
+        [-4.4766e-01, -9.9334e-01, -1.6647e+00]])}
+GPU:
+{   'PassFlattenCallTempVar1': torch.Size([10, 3]),
+    'PassLogTorchIntermediateTempVar1_input': tensor([[-0.0070,  0.5044,  0.6704],
+        [-0.3829,  0.0302,  0.3826],
+        [-0.5131,  0.7104,  1.8092],
+        [ 0.4352,  2.6453,  0.2654],
+        [ 0.9235, -0.4376,  2.0201],
+        [-0.3333,  1.6243, -0.3222],
+        [ 0.2299, -0.9675, -0.6336],
+        [ 0.7566,  0.8036, -1.2524],
+        [ 0.7749, -0.1788, -0.4155],
+        [-0.4477, -0.9933, -1.6647]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_input_data': tensor([[-8.3522e+11,  3.0742e-41,  0.0000e+00],
+        [ 0.0000e+00,  3.0239e-02,  3.8263e-01],
+        [-5.1312e-01,  7.1042e-01,  1.8092e+00],
+        [ 4.3523e-01,  2.6453e+00,  2.6535e-01],
+        [ 9.2350e-01, -4.3756e-01,  2.0201e+00],
+        [-3.3326e-01,  1.6243e+00, -3.2217e-01],
+        [ 2.2995e-01, -9.6751e-01, -6.3356e-01],
+        [ 7.5658e-01,  8.0363e-01, -1.2524e+00],
+        [ 7.7488e-01, -1.7884e-01, -4.1555e-01],
+        [-4.4766e-01, -9.9334e-01, -1.6647e+00]], device='cuda:0'),
+    'input': tensor([[-0.0070,  0.5044,  0.6704],
+        [-0.3829,  0.0302,  0.3826],
+        [-0.5131,  0.7104,  1.8092],
+        [ 0.4352,  2.6453,  0.2654],
+        [ 0.9235, -0.4376,  2.0201],
+        [-0.3333,  1.6243, -0.3222],
+        [ 0.2299, -0.9675, -0.6336],
+        [ 0.7566,  0.8036, -1.2524],
+        [ 0.7749, -0.1788, -0.4155],
+        [-0.4477, -0.9933, -1.6647]], device='cuda:0'),
+    'input_data': tensor([[-8.3522e+11,  3.0742e-41,  0.0000e+00],
+        [ 0.0000e+00,  3.0239e-02,  3.8263e-01],
+        [-5.1312e-01,  7.1042e-01,  1.8092e+00],
+        [ 4.3523e-01,  2.6453e+00,  2.6535e-01],
+        [ 9.2350e-01, -4.3756e-01,  2.0201e+00],
+        [-3.3326e-01,  1.6243e+00, -3.2217e-01],
+        [ 2.2995e-01, -9.6751e-01, -6.3356e-01],
+        [ 7.5658e-01,  8.0363e-01, -1.2524e+00],
+        [ 7.7488e-01, -1.7884e-01, -4.1555e-01],
+        [-4.4766e-01, -9.9334e-01, -1.6647e+00]], device='cuda:0')}

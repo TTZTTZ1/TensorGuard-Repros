@@ -1,0 +1,46 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444639.204782 1401774 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444639.243654 1401774 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444640.239295 1401774 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 8
+Last lines before problem: 
+5 > torch.set_num_threads(2)
+6 > tensor = torch.Tensor(10)
+7 > tensor1 = torch.Tensor(range(10))
+8 > tensor2 = torch.Tensor(range(10, 20))
+VarTypeConflictCatch 
+CPU:
+{   'PassFlattenCallTempVar1': 'int',
+    'PassFlattenCallTempVar2': 'NoneType',
+    'PassFlattenCallTempVar3': 'bool',
+    'PassFlattenCallTempVar4': 'NoneType',
+    'PassFlattenCallTempVar5': 'NoneType',
+    'PassFlattenCallTempVar6': 'range',
+    'PassFlattenCallTempVar7': 'range',
+    'PassLogTorchIntermediateTempVar10_tensor2': 'Tensor',
+    'PassLogTorchIntermediateTempVar6_tensor': 'Tensor',
+    'PassLogTorchIntermediateTempVar8_tensor1': 'Tensor',
+    'np': 'module',
+    'tensor': 'Tensor',
+    'tensor1': 'Tensor',
+    'tensor2': 'Tensor',
+    'torch': 'module'}
+GPU:
+{   'PassFlattenCallTempVar1': 'int',
+    'PassFlattenCallTempVar2': 'NoneType',
+    'PassFlattenCallTempVar3': 'bool',
+    'PassFlattenCallTempVar5': 'NoneType',
+    'PassFlattenCallTempVar6': 'range',
+    'PassFlattenCallTempVar7': 'range',
+    'PassLogTorchIntermediateTempVar10_tensor2': 'Tensor',
+    'PassLogTorchIntermediateTempVar6_tensor': 'Tensor',
+    'PassLogTorchIntermediateTempVar8_tensor1': 'Tensor',
+    'np': 'module',
+    'tensor': 'Tensor',
+    'tensor1': 'Tensor',
+    'tensor2': 'Tensor',
+    'torch': 'module'}
+[rank0]:[W614 13:44:00.221238923 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())

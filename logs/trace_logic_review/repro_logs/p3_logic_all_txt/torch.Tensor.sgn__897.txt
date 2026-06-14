@@ -1,0 +1,141 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444351.608386 1377983 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444351.647406 1377983 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444352.625020 1377983 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+
+FrameworkSingle DuelFinished 420 Problem since line 4
+Last lines before problem: 
+1 > 
+2 > _input_tensor = torch.randn(4, 10).to('cpu')
+3 > _input_tensor = torch.tensor(_input_tensor).to('cpu')
+4 > torch.Tensor.sgn_(_input_tensor)
+VarInconsistentCatch 
+diff:['PassFlattenCallTempVar2']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]]),
+    'PassFlattenCallTempVar2': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]]),
+    'PassFlattenCallTempVar3': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]]),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]]),
+    'PassLogTorchIntermediateTempVar2__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]]),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]]),
+    'PassLogTorchIntermediateTempVar4__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]]),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar3': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]]),
+    '_input_tensor': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]])}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassFlattenCallTempVar3': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829,  0.0302,  0.3826, -0.5131,  0.7104,
+          1.8092,  0.4352],
+        [ 2.6453,  0.2654,  0.9235, -0.4376,  2.0182,  1.3498, -0.2523, -0.0355,
+         -0.0646, -0.5918],
+        [ 0.0938, -2.0492,  1.0550, -0.6222, -0.1976,  1.1204,  0.4033,  1.2409,
+          0.8388,  1.8417],
+        [-0.5796,  0.6416, -0.3285, -0.6949, -1.8402,  0.3787,  1.2050,  0.1196,
+         -3.1823, -0.0214]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar3': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]], device='cuda:0'),
+    '_input_tensor': tensor([[-1.,  1.,  1., -1.,  1.,  1., -1.,  1.,  1.,  1.],
+        [ 1.,  1.,  1., -1.,  1.,  1., -1., -1., -1., -1.],
+        [ 1., -1.,  1., -1., -1.,  1.,  1.,  1.,  1.,  1.],
+        [-1.,  1., -1., -1., -1.,  1.,  1.,  1., -1., -1.]], device='cuda:0')}

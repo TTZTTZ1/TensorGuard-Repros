@@ -1,0 +1,48 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443968.382881 1346486 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781443968.421022 1346486 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443969.394765 1346486 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 3
+Last lines before problem: 
+1 > 
+2 > input_tensor = 42
+3 > tensor = torch.Tensor(input_tensor)
+VarInconsistentCatch 
+diff:['tensor', 'PassLogTorchIntermediateTempVar2_tensor']
+CPU:
+{   'PassLogTorchIntermediateTempVar2_tensor': tensor([4.6489e+12, 3.0777e-41, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 5.6052e-43, 0.0000e+00]),
+    'input_tensor': 42,
+    'tensor': tensor([4.6489e+12, 3.0777e-41, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+        0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 5.6052e-43, 0.0000e+00])}
+GPU:
+{   'PassLogTorchIntermediateTempVar2_tensor': tensor([5.0557e+17, 7.0065e-45, 0.0000e+00, 0.0000e+00, 7.1560e+22, 6.7559e+34,
+        6.7721e+22, 4.5448e+30, 4.8354e+30, 1.5788e-19, 6.9178e+22, 1.4607e-19,
+        7.7455e+26, 1.6601e+19, 1.6930e+22, 7.1428e+31, 2.9557e+21, 6.9780e+22,
+        7.2251e+28, 2.0113e+20, 1.7439e+02, 2.7258e+20, 1.9433e-19, 6.3793e+28,
+        3.9159e-02, 1.8515e+28, 1.2393e+28, 1.6532e+19, 1.0805e+27, 8.7883e-04,
+        7.4086e+28, 1.6020e-19, 1.8728e+31, 1.2393e+28, 1.8177e+31, 6.7111e+22,
+        7.7050e+31, 1.6020e-19, 1.4328e-19, 6.7211e+08, 9.3150e-39, 0.0000e+00],
+       device='cuda:0'),
+    'input_tensor': 42,
+    'tensor': tensor([5.0557e+17, 7.0065e-45, 0.0000e+00, 0.0000e+00, 7.1560e+22, 6.7559e+34,
+        6.7721e+22, 4.5448e+30, 4.8354e+30, 1.5788e-19, 6.9178e+22, 1.4607e-19,
+        7.7455e+26, 1.6601e+19, 1.6930e+22, 7.1428e+31, 2.9557e+21, 6.9780e+22,
+        7.2251e+28, 2.0113e+20, 1.7439e+02, 2.7258e+20, 1.9433e-19, 6.3793e+28,
+        3.9159e-02, 1.8515e+28, 1.2393e+28, 1.6532e+19, 1.0805e+27, 8.7883e-04,
+        7.4086e+28, 1.6020e-19, 1.8728e+31, 1.2393e+28, 1.8177e+31, 6.7111e+22,
+        7.7050e+31, 1.6020e-19, 1.4328e-19, 6.7211e+08, 9.3150e-39, 0.0000e+00],
+       device='cuda:0')}

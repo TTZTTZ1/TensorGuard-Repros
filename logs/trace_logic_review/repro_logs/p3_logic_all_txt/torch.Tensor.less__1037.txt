@@ -1,0 +1,32 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443977.516039 1347317 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781443977.554937 1347317 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781443978.531638 1347317 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 7
+Last lines before problem: 
+4 > input_tensor = torch.Tensor(input)
+5 > output_tensor = torch.Tensor.less_(input_tensor, other)
+6 > output_tensor
+7 > 
+VarInconsistentCatch 
+diff:['PassLogTorchIntermediateTempVar3_input_tensor']
+CPU:
+{   'PassLogTorchIntermediateTempVar2_other': tensor(1),
+    'PassLogTorchIntermediateTempVar3_input_tensor': tensor([9.3401e-38, 3.0607e-41, 0.0000e+00, 0.0000e+00, 1.0000e-02]),
+    'PassLogTorchIntermediateTempVar4_output_tensor': tensor([1., 1., 1., 1., 1.]),
+    'input': array(5),
+    'input_tensor': tensor([1., 1., 1., 1., 1.]),
+    'other': tensor(1),
+    'output_tensor': tensor([1., 1., 1., 1., 1.])}
+GPU:
+{   'PassLogTorchIntermediateTempVar2_other': tensor(1, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_input_tensor': tensor([4.2724e-38, 3.0607e-41, 0.0000e+00, 0.0000e+00, 4.4842e-44],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_output_tensor': tensor([1., 1., 1., 1., 1.], device='cuda:0'),
+    'input': array(5),
+    'input_tensor': tensor([1., 1., 1., 1., 1.], device='cuda:0'),
+    'other': tensor(1, device='cuda:0'),
+    'output_tensor': tensor([1., 1., 1., 1., 1.], device='cuda:0')}

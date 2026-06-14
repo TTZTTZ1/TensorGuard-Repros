@@ -1,0 +1,36 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444842.660789 1422959 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444842.699663 1422959 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444843.675300 1422959 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > obj = torch.tensor(2)
+3 > obj = obj
+4 > obj = torch.any((obj == 2))
+5 > obj = (obj + torch.Tensor(obj.size()))
+VarInconsistentCatch 
+diff:[   'obj',
+    'PassFlattenCallTempVar2',
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2',
+    'PassLogTorchIntermediateTempVar6_obj']
+CPU:
+{   'PassFlattenCallTempVar1': torch.Size([]),
+    'PassFlattenCallTempVar2': tensor(1.4364e-12),
+    'PassLogTorchIntermediateTempVar1_obj': tensor(2),
+    'PassLogTorchIntermediateTempVar2_obj': tensor(2),
+    'PassLogTorchIntermediateTempVar3_obj': tensor(True),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor(1.4364e-12),
+    'PassLogTorchIntermediateTempVar6_obj': tensor(1.),
+    'obj': tensor(1.)}
+GPU:
+{   'PassFlattenCallTempVar1': torch.Size([]),
+    'PassFlattenCallTempVar2': tensor(1.7526e+15, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_obj': tensor(2, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_obj': tensor(2, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_obj': tensor(True, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor(1.7526e+15, device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6_obj': tensor(1.7526e+15, device='cuda:0'),
+    'obj': tensor(1.7526e+15, device='cuda:0')}

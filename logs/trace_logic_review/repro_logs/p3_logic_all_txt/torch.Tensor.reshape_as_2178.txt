@@ -1,0 +1,51 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444118.058047 1358969 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444118.097250 1358969 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444119.067584 1358969 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 6
+Last lines before problem: 
+3 > tensor_2 = tensor_2.to('cpu')
+4 > tensor_1 = torch.Tensor(torch.Size([2, 3]))
+5 > tensor_2 = tensor_2.to('cpu')
+6 > input_tensor = torch.tensor([[1, 2, 3], [4, 5, 6]])
+VarInconsistentCatch 
+diff:['tensor_1', 'PassLogTorchIntermediateTempVar4_tensor_1']
+CPU:
+{   'PassFlattenCallTempVar1': torch.Size([2, 3]),
+    'PassLogTorchIntermediateTempVar1_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]]),
+    'PassLogTorchIntermediateTempVar2_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]]),
+    'PassLogTorchIntermediateTempVar4_tensor_1': tensor([[ 3.3342e-23,  4.5748e-41, -2.4607e-36],
+        [ 3.0722e-41,  0.0000e+00,  0.0000e+00]]),
+    'PassLogTorchIntermediateTempVar5_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]]),
+    'PassLogTorchIntermediateTempVar6_input_tensor': tensor([[1, 2, 3],
+        [4, 5, 6]]),
+    'input_tensor': tensor([[1, 2, 3],
+        [4, 5, 6]]),
+    'tensor_1': tensor([[ 3.3342e-23,  4.5748e-41, -2.4607e-36],
+        [ 3.0722e-41,  0.0000e+00,  0.0000e+00]]),
+    'tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]])}
+GPU:
+{   'PassFlattenCallTempVar1': torch.Size([2, 3]),
+    'PassLogTorchIntermediateTempVar1_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_tensor_1': tensor([[-3.8438e+15,  3.0718e-41,  0.0000e+00],
+        [ 0.0000e+00,  4.4842e-44,  0.0000e+00]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6_input_tensor': tensor([[1, 2, 3],
+        [4, 5, 6]], device='cuda:0'),
+    'input_tensor': tensor([[1, 2, 3],
+        [4, 5, 6]], device='cuda:0'),
+    'tensor_1': tensor([[-3.8438e+15,  3.0718e-41,  0.0000e+00],
+        [ 0.0000e+00,  4.4842e-44,  0.0000e+00]], device='cuda:0'),
+    'tensor_2': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554]], device='cuda:0')}

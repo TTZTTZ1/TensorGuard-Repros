@@ -1,0 +1,73 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444618.375171 1400095 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444618.414208 1400095 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444619.396540 1400095 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 4
+Last lines before problem: 
+1 > 
+2 > window_length = 10
+3 > N = 128
+4 > input_data = torch.Tensor(N, window_length)
+VarInconsistentCatch 
+diff:['input_data', 'PassLogTorchIntermediateTempVar3_input_data']
+CPU:
+{   'N': 128,
+    'PassLogTorchIntermediateTempVar3_input_data': tensor([[3.1953e+27, 4.5703e-41, 3.1953e+27,  ..., 3.0833e-41, 3.1950e-43,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 1.7588e+22,  ..., 2.2228e-15, 1.9283e+31,
+         3.9760e+12],
+        [4.2964e+24, 7.2143e+22, 1.6929e+22,  ..., 1.6488e+22, 3.1288e-15,
+         2.3836e+02],
+        ...,
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 0.0000e+00,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 0.0000e+00,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 1.0144e+09,
+         3.0833e-41]]),
+    'input_data': tensor([[3.1953e+27, 4.5703e-41, 3.1953e+27,  ..., 3.0833e-41, 3.1950e-43,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 1.7588e+22,  ..., 2.2228e-15, 1.9283e+31,
+         3.9760e+12],
+        [4.2964e+24, 7.2143e+22, 1.6929e+22,  ..., 1.6488e+22, 3.1288e-15,
+         2.3836e+02],
+        ...,
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 0.0000e+00,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 0.0000e+00,
+         0.0000e+00],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 0.0000e+00, 1.0144e+09,
+         3.0833e-41]]),
+    'window_length': 10}
+GPU:
+{   'N': 128,
+    'PassLogTorchIntermediateTempVar3_input_data': tensor([[ 1.4013e-45,  9.2486e-44,  0.0000e+00,  ...,  1.8217e-44,
+          1.6479e-42,  3.0833e-41],
+        [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  ...,  3.0833e-41,
+         -2.5065e+33,  4.5701e-41],
+        [ 1.4013e-45,  3.0833e-41,  1.0163e+09,  ...,  1.8217e-44,
+          3.3631e-44,  3.0833e-41],
+        ...,
+        [ 1.0166e+09,  3.0833e-41,  1.5877e-42,  ...,  3.0833e-41,
+          1.0166e+09,  3.0833e-41],
+        [ 1.5891e-42,  0.0000e+00,  1.0167e+09,  ...,  3.0833e-41,
+          1.5905e-42,  0.0000e+00],
+        [ 1.0167e+09,  3.0833e-41,  3.9236e-44,  ...,  3.0833e-41,
+          1.0167e+09,  3.0833e-41]], device='cuda:0'),
+    'input_data': tensor([[ 1.4013e-45,  9.2486e-44,  0.0000e+00,  ...,  1.8217e-44,
+          1.6479e-42,  3.0833e-41],
+        [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  ...,  3.0833e-41,
+         -2.5065e+33,  4.5701e-41],
+        [ 1.4013e-45,  3.0833e-41,  1.0163e+09,  ...,  1.8217e-44,
+          3.3631e-44,  3.0833e-41],
+        ...,
+        [ 1.0166e+09,  3.0833e-41,  1.5877e-42,  ...,  3.0833e-41,
+          1.0166e+09,  3.0833e-41],
+        [ 1.5891e-42,  0.0000e+00,  1.0167e+09,  ...,  3.0833e-41,
+          1.5905e-42,  0.0000e+00],
+        [ 1.0167e+09,  3.0833e-41,  3.9236e-44,  ...,  3.0833e-41,
+          1.0167e+09,  3.0833e-41]], device='cuda:0'),
+    'window_length': 10}

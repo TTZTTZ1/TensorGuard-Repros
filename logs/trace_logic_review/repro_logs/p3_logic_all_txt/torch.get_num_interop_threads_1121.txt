@@ -1,0 +1,24 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444685.171830 1405887 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444685.210845 1405887 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444686.184121 1405887 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 3
+Last lines before problem: 
+1 > 
+2 > threads = (((torch.get_num_interop_threads() - 1) * 4) // 4)
+3 > torch.set_num_threads(((threads * (torch.get_num_threads() + torch.get_num_threads())) // 2))
+VarInconsistentCatch 
+diff:['PassFlattenCallTempVar2', 'PassFlattenCallTempVar3']
+CPU:
+{   'PassFlattenCallTempVar1': 24,
+    'PassFlattenCallTempVar2': 8,
+    'PassFlattenCallTempVar3': 8,
+    'threads': 23}
+GPU:
+{   'PassFlattenCallTempVar1': 24,
+    'PassFlattenCallTempVar2': 184,
+    'PassFlattenCallTempVar3': 184,
+    'threads': 23}

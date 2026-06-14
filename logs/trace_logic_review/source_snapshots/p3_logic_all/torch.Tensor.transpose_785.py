@@ -1,0 +1,11 @@
+
+input_tensor = torch.randn(2, 3)
+output_tensor = torch.Tensor.transpose(torch.argsort(input_tensor), 0, 1)
+torch.set_printoptions(precision=2)
+torch.set_num_threads(2)
+torch.autograd.set_detect_anomaly(True)
+(output_tensor_sorted, output_tensor_sorted_idx) = torch.sort(output_tensor, descending=True)
+torch.autograd.set_detect_anomaly(False)
+torch.sort(output_tensor)
+torch.autograd.set_detect_anomaly(True)
+output = torch.sort(output_tensor)

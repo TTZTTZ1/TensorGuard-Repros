@@ -1,0 +1,51 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444608.879920 1399273 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781444608.918802 1399273 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781444609.913202 1399273 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 2
+Last lines before problem: 
+1 > 
+2 > _output_tensor = torch.Tensor(size=(2, 4, 3))
+VarInconsistentCatch 
+diff:['_output_tensor', 'PassLogTorchIntermediateTempVar1__output_tensor']
+CPU:
+{   'PassLogTorchIntermediateTempVar1__output_tensor': tensor([[[ 1.7301e+28,  3.0834e-41,  0.0000e+00],
+         [ 0.0000e+00, -2.7351e-02,  4.5583e-41],
+         [-2.6684e+24,  4.5584e-41, -2.7351e-02],
+         [ 4.5583e-41, -2.4245e-38,  4.5914e-41]],
+
+        [[ 3.5733e-43,  0.0000e+00,  3.5873e-43],
+         [ 0.0000e+00, -2.7620e+24,  4.5584e-41],
+         [ 0.0000e+00,  0.0000e+00,  0.0000e+00],
+         [ 0.0000e+00,  0.0000e+00,  0.0000e+00]]]),
+    '_output_tensor': tensor([[[ 1.7301e+28,  3.0834e-41,  0.0000e+00],
+         [ 0.0000e+00, -2.7351e-02,  4.5583e-41],
+         [-2.6684e+24,  4.5584e-41, -2.7351e-02],
+         [ 4.5583e-41, -2.4245e-38,  4.5914e-41]],
+
+        [[ 3.5733e-43,  0.0000e+00,  3.5873e-43],
+         [ 0.0000e+00, -2.7620e+24,  4.5584e-41],
+         [ 0.0000e+00,  0.0000e+00,  0.0000e+00],
+         [ 0.0000e+00,  0.0000e+00,  0.0000e+00]]])}
+GPU:
+{   'PassLogTorchIntermediateTempVar1__output_tensor': tensor([[[3.7790e+21, 4.5586e-41, 4.1132e-08],
+         [3.0830e-41, 2.9968e-09, 3.0830e-41],
+         [3.6021e-07, 3.0830e-41, 0.0000e+00],
+         [0.0000e+00, 3.6029e-07, 3.0830e-41]],
+
+        [[0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00]]], device='cuda:0'),
+    '_output_tensor': tensor([[[3.7790e+21, 4.5586e-41, 4.1132e-08],
+         [3.0830e-41, 2.9968e-09, 3.0830e-41],
+         [3.6021e-07, 3.0830e-41, 0.0000e+00],
+         [0.0000e+00, 3.6029e-07, 3.0830e-41]],
+
+        [[0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00],
+         [0.0000e+00, 0.0000e+00, 0.0000e+00]]], device='cuda:0')}

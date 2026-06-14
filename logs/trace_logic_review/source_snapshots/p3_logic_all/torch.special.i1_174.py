@@ -1,0 +1,13 @@
+
+input_data = torch.tensor([0.5], dtype=torch.float32)
+result = torch.special.i1(input_data)
+result = torch.special.erf(result)
+result = torch.special.erfc(result)
+result = torch.exp((- result))
+result = (1.0 / result)
+result = ((1.0 / result) + (1.0 / (result ** 2)))
+result = torch.tan((1 / result))
+result = torch.tan(result)
+result = ((1 / result) - (1 / (result ** 2)))
+result = (1 / result)
+result = torch.tan(result)

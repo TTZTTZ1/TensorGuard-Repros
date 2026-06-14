@@ -1,0 +1,8 @@
+input_tensor = torch.randn(3, 5, requires_grad=True)
+input_tensor = (input_tensor / torch.sum(input_tensor))
+input_tensor = ((input_tensor - 0.5) * torch.abs(input_tensor))
+input_tensor = (torch.zeros_like(input_tensor) - input_tensor)
+input_tensor = ((input_tensor * 0.5) + 0.25)
+output = torch.Tensor.bool(torch.rand(3, 3, 5)).bool()
+output_ = (input_tensor * output)
+output_ = torch.Tensor(output_.size()).zero_()
