@@ -1,0 +1,17 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781456273.632144 2105934 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781456273.670660 2105934 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781456274.641432 2105934 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+:17: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /pytorch/torch/csrc/tensor/python_tensor.cpp:78.)
+
+FrameworkSingle DuelFinished 420 Problem since line 9
+Last lines before problem: 
+6 > dim = 1
+7 > index = torch.LongTensor([0, 2, 4])
+8 > tensor2 = torch.as_tensor(torch.randn(3, 3, dim))
+9 > torch.Tensor.index_copy(_input_tensor, dim, index, tensor2)
+BothExecFail 
+CPU: IndexError index_copy_(): When source and destination are not scalars, their dimensionality must match. Source dimensionality (3), destination dimensionality (2)
+GPU: IndexError index_copy_(): When source and destination are not scalars, their dimensionality must match. Source dimensionality (3), destination dimensionality (2)

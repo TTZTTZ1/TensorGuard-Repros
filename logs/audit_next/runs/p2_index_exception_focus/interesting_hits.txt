@@ -1,0 +1,12 @@
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:18:CPU: AcceleratorError CUDA error: device-side assert triggered
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:19:Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:20:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:22:GPU: AcceleratorError CUDA error: device-side assert triggered
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:23:Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/1_torch.Tensor.gather_109.txt:24:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:20:CPU: AcceleratorError CUDA error: device-side assert triggered
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:21:Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:22:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:24:GPU: AcceleratorError CUDA error: device-side assert triggered
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:25:Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+TensorGuard-Repros/logs/audit_next/runs/p2_index_exception_focus/6_torch.Tensor.take_1002.txt:26:Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.

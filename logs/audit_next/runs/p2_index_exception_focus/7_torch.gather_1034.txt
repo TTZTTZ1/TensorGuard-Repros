@@ -1,0 +1,16 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781456288.327963 2107191 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781456288.365776 2107191 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781456289.333259 2107191 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > {"exception": "TypeError", "msg": "'Tensor' object is not callable"}
+3 > """
+4 > 
+5 > input_tensor = torch.arange(5)(5, 4)
+BothExecFail 
+CPU: TypeError 'Tensor' object is not callable
+GPU: TypeError 'Tensor' object is not callable

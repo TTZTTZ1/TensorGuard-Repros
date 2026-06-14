@@ -1,0 +1,14 @@
+queue=TensorGuard-Repros/logs/audit_next/queues/p2_index_exception_focus.tsv
+start=1 limit=10 timeout=60s
+started=2026-06-14 16:57:49
+===== queue_index=1 batch_index=1/10 P2 torch.Tensor.gather_109 source=Results/torch/exception/torch.Tensor.gather_109.py =====
+===== queue_index=2 batch_index=2/10 P2 torch.Tensor.index_copy_1083 source=Results/torch/exception/torch.Tensor.index_copy_1083.py =====
+===== queue_index=3 batch_index=3/10 P2 torch.Tensor.index_fill_100 source=Results/torch/exception/torch.Tensor.index_fill_100.py =====
+===== queue_index=4 batch_index=4/10 P2 torch.Tensor.index_select_1011 source=Results/torch/valid/torch.Tensor.index_select_1011.py =====
+===== queue_index=5 batch_index=5/10 P2 torch.Tensor.scatter__1018 source=Results/torch/exception/torch.Tensor.scatter__1018.py =====
+===== queue_index=6 batch_index=6/10 P2 torch.Tensor.take_1002 source=Results/torch/exception/torch.Tensor.take_1002.py =====
+===== queue_index=7 batch_index=7/10 P2 torch.gather_1034 source=Results/torch/exception/torch.gather_1034.py =====
+===== queue_index=8 batch_index=8/10 P2 torch.nn.functional.cross_entropy_1080 source=Results/torch/exception/torch.nn.functional.cross_entropy_1080.py =====
+===== queue_index=9 batch_index=9/10 P2 torch.nn.functional.embedding_109 source=Results/torch/exception/torch.nn.functional.embedding_109.py =====
+===== queue_index=10 batch_index=10/10 P2 torch.nn.functional.nll_loss_1012 source=Results/torch/exception/torch.nn.functional.nll_loss_1012.py =====
+finished=2026-06-14 16:58:18
