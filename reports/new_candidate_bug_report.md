@@ -17,6 +17,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 conv/ctc first30 rejected/noise | 0 accepted | 30 logs + independent `conv3d` check | `conv3d` explained by TF32/floating-point tolerance; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
 | P2 remaining numeric next30 rejected/noise | 0 accepted | 30 logs + source snapshots + FFT deep-dive | FFT differences are expected float32 CPU/GPU numeric variance; `pinverse` divide-by-zero and overflow cases rejected/noise |
 | P2 final output balanced51 rejected/noise | 0 accepted | 51 logs + source snapshots | Quantized/sparse outputs hit TitanFuzz comparator limitations; dropout randomness and generated-code errors rejected |
+| P2 GPU exec remaining rejected/noise | 0 accepted | 13 logs + source snapshots | 11 reruns report `No problem found`; 2 stochastic APIs report `InternalRandomFail` |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -500,19 +501,57 @@ quantized: compare int_repr(), q_scale(), q_zero_point(), qscheme(), dtype, and 
 sparse: compare layout, indices, values, size, coalesced state, and dense result only when invariants are valid
 ```
 
+### P2 GPU Exec Remaining 13
+
+No new accepted candidate was added from this batch.
+This batch closes the remaining `gpu_exec_or_cuda_assert_mismatch` API families after excluding the already accepted `fractional_max_pool3d` family.
+
+Reviewed logs and source snapshots:
+
+```text
+logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/
+logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_summary.txt
+logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/
+```
+
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Rejected / no problem on rerun | 11 | `LongStorage`, `nanquantile`, `new_full`, `broadcast_shapes`, `index_select`, `lu`, `binary_cross_entropy`, `pack_padded_sequence`, `pack_sequence`, `take_along_dim`, and `tril_indices` reran with `No problem found` |
+| Rejected / random behavior | 2 | `torch.Tensor.bernoulli_` and `torch.nn.functional.gumbel_softmax` report `InternalRandomFail`; sources directly use stochastic sampling |
+
+Representative source review:
+
+```text
+torch.Tensor.bernoulli__1470.py:
+  y = torch.Tensor.bernoulli_(torch.Tensor.bernoulli_(torch.randn(1)))
+  The source nests random sampling and the log reports InternalRandomFail.
+
+torch.nn.functional.gumbel_softmax_326.py:
+  logits = logits + torch.randn(*logits.shape) * tau
+  output = torch.nn.functional.gumbel_softmax(logits, tau=1.0)
+  The source has random noise before a stochastic API, so it is not a clean CPU/GPU bug.
+```
+
+Conclusion:
+
+The P2 `gpu_exec_or_cuda_assert_mismatch` category is now fully reviewed by API family.
+The only accepted candidate from that category remains `fractional_max_pool3d`.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with remaining GPU execution mismatch or strong-crash/API clusters.
+The next step is to continue with remaining numeric or sparse/API clusters.
 Avoid re-running already explained high-noise families unless using invariant/tolerance-aware checkers.
 
 Suggested next API groups:
 
 ```text
-remaining gpu_exec_or_cuda_assert_mismatch cases, excluding the already accepted fractional_max_pool3d family
 torch.linalg.cond / lstsq / eigvalsh
 torch.pinverse
 torch.nn.functional.conv2d / conv_transpose2d
+torch.sparse.mm / sparse_csr_tensor / sparse_coo_tensor
 remaining strong_crash / internal_assert clusters not yet source-reviewed
 ```
 
