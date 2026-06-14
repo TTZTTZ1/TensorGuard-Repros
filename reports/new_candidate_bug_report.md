@@ -10,11 +10,11 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
 | Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
-| Pending candidates | 1 | `conv3d` output numeric mismatch family | Needs independent TF32/tolerance check before accept/reject |
+| Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
 | P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
-| P2 conv/ctc first30 reviewed | 0 accepted, 1 pending | 30 logs | `conv3d` pending numeric check; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
+| P2 conv/ctc first30 rejected/noise | 0 accepted | 30 logs + independent `conv3d` check | `conv3d` explained by TF32/floating-point tolerance; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -303,8 +303,8 @@ For `eigh` and `svd`, the correct validation should compare invariant properties
 
 ### P2 `conv3d` / `conv_transpose3d` / `ctc_loss` First 30
 
-No new accepted candidate was added from this batch yet.
-One `conv3d` root-cause family is pending independent numeric validation.
+No new accepted candidate was added from this batch.
+The `conv3d` root-cause family was independently checked and rejected as a strong bug candidate.
 
 Reviewed logs:
 
@@ -327,33 +327,49 @@ Summary:
 
 | result | count | source-level conclusion |
 |---|---:|---|
-| Pending numeric validation | 10 | `conv3d` sources are normal valid convolution inputs; logs show output differences, but this may be expected TF32/cuDNN floating-point variance |
+| Rejected / expected numeric variance | 10 | `conv3d` sources are normal valid convolution inputs; independent check shows large differences with TF32 enabled but reasonable tolerance when TF32 is disabled |
 | Rejected/no problem | 10 | `conv_transpose3d` logs say `FrameworkSingle DuelFailed 420 No problem found` |
 | Rejected/invalid generated input | 5 | `ctc_loss` sources use invalid target labels, e.g. `C=1` with targets `[1,2,3,4]`, or `C=4` with target `4` and `blank=1` included in targets |
 | Rejected/no problem | 5 | remaining `ctc_loss` logs say `No problem found` |
 
 The `ctc_loss` failures should not be counted as strong PyTorch bugs at this stage.
 They are generated invalid-input cases and may exercise undefined or under-validated behavior.
-The `conv3d` cases are more meaningful because the source inputs are legal, but they need a tolerance-aware independent check.
 
-Independent checker added:
+Independent checker:
 
 ```text
 scripts/check_conv3d_numeric_batch.py
 ```
 
+Independent result:
+
+```text
+logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/conv3d_numeric_independent.txt
+```
+
+With TF32 enabled, all `conv3d` cases fail even `allclose(rtol=1e-3, atol=1e-3)`, with max absolute errors around `2.1e-2` to `5.6e-2`.
+With TF32 disabled, all cases pass `1e-3`; 9 out of 10 also pass `1e-4`.
+The remaining case, `conv3d_1`, has a larger `5x5x5` kernel and still passes `1e-3` with `max_abs=5.0354e-4`.
+
+Conclusion:
+
+These `conv3d` logs are best treated as TF32/cuDNN/CPU floating-point-path differences rather than reportable PyTorch bugs.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to run the independent `conv3d` numeric checker.
-Do not accept the `conv3d` family as a bug unless it still fails with TF32 disabled and exceeds reasonable tolerances.
+The next step is to continue with remaining P2 numeric APIs that are less dominated by known alias/vector-sign/TF32 noise.
 
-Run on the server:
+Suggested next API groups:
 
-```bash
-python TensorGuard-Repros/scripts/check_conv3d_numeric_batch.py \
-  > TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/conv3d_numeric_independent.txt 2>&1
+```text
+torch.fft.ihfft / rfft / hfft / ifftn
+torch.linalg.cond / lstsq / eigvalsh
+torch.Tensor.pinverse / torch.pinverse
+torch.nn.functional.conv2d / conv_transpose2d
 ```
+
+Skip `torch.Tensor.addmm_` for now because the already reviewed in-place/alias families are easy to misclassify and were disputed by the senior student.
 
 If `eigh` or `svd` is reviewed again, use an invariant checker:
 
