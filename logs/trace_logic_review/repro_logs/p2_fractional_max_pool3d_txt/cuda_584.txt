@@ -1,0 +1,18 @@
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+x.shape: (76800, 4, 4, 4)
+random_samples.shape: (76800, 4, 4, 4)
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3d_584.py", line 33, in <module>
+    y = F.fractional_max_pool3d(x, kernel_size, output_size, random_samples, False)
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/_jit_internal.py", line 636, in fn
+    return if_false(*args, **kwargs)
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/nn/functional.py", line 653, in _fractional_max_pool3d
+    return fractional_max_pool3d_with_indices(
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/nn/functional.py", line 629, in fractional_max_pool3d_with_indices
+    return torch._C._nn.fractional_max_pool3d(
+torch.AcceleratorError: CUDA error: invalid argument
+Search for `cudaErrorInvalidValue' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
