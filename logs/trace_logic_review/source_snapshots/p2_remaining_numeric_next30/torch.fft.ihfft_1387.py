@@ -1,0 +1,12 @@
+
+input_data = torch.tensor([1.0, 2.0, 3.0, 4.0], dtype=torch.float32, requires_grad=True)
+result = torch.fft.ihfft(input_data)
+result = torch.fft.hfft(result)
+result = torch.fft.hfft(result, n=1024)
+result = torch.fft.hfft(result, n=2048)
+result = torch.fft.fft(result)
+result = torch.fft.hfft(result, n=1024)
+result = torch.fft.fft(result, n=2048)
+result = torch.fft.ifft(result)
+result = torch.fft.fft(result, n=1024)
+result = torch.fft.fftn(result)

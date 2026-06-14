@@ -1,0 +1,75 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781425678.708293   81593 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781425678.746735   81593 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781425679.723916   81593 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 8
+Last lines before problem: 
+5 > result = torch.fft.fft(result, n=2048)
+6 > result = torch.fft.fft(result, n=2048)
+7 > result = torch.fft.fft(result, n=2048)
+8 > result = torch.fft.fft(result, n=2048)
+VarInconsistentCatch 
+diff:['result', 'PassLogTorchIntermediateTempVar7_result']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], grad_fn=<ConjBackward0>),
+    'PassLogTorchIntermediateTempVar1_input_data': tensor([1., 2., 3., 4.], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar2_result': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar1': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar4_result': tensor([0.5020+1.0610j, 1.0029+0.6366j, 1.5020+0.6366j,  ...,
+        0.0029+0.2971j, 0.0020+0.4668j, 0.0029+0.6366j],
+       grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar5_result': tensor([ 1.0000e+01-5.9605e-08j, -8.9407e-07+5.9605e-07j,
+        -4.7684e-07+7.7486e-07j,  ...,
+         9.9979e+00+1.8406e-01j,  9.9991e+00+1.2271e-01j,
+         9.9998e+00+6.1359e-02j], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar6_result': tensor([1.0280e+03+2172.9883j, 6.0001e+00+1303.7925j, 3.9999e+00+956.1048j,
+         ..., 4.1020e+03-2172.9922j, 3.0760e+03+1303.7966j,
+        2.0540e+03+1303.7965j], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar7_result': tensor([ 2.0480e+04-1.2207e-03j,  2.0480e+04+1.2566e+02j,
+         2.0478e+04+2.5132e+02j,  ...,
+        -9.7656e-04-6.1035e-04j, -1.2207e-04+4.8828e-04j,
+        -4.8828e-04+5.4932e-04j], grad_fn=<CloneBackward0>),
+    'input_data': tensor([1., 2., 3., 4.], requires_grad=True),
+    'result': tensor([ 2.0480e+04-1.2207e-03j,  2.0480e+04+1.2566e+02j,
+         2.0478e+04+2.5132e+02j,  ...,
+        -9.7656e-04-6.1035e-04j, -1.2207e-04+4.8828e-04j,
+        -4.8828e-04+5.4932e-04j], grad_fn=<FftC2CBackward0>)}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], device='cuda:0', grad_fn=<ConjBackward0>),
+    'PassLogTorchIntermediateTempVar1_input_data': tensor([1., 2., 3., 4.], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar2_result': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar1': tensor([ 0.0049-0.0000e+00j,  0.0049+2.9960e-05j,  0.0049+5.9919e-05j,
+         ..., -0.0010+2.3967e-05j, -0.0010+1.1984e-05j,
+        -0.0010-0.0000e+00j], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar4_result': tensor([0.5020+1.0610j, 1.0029+0.6366j, 1.5020+0.6366j,  ...,
+        0.0029+0.2971j, 0.0020+0.4668j, 0.0029+0.6366j], device='cuda:0',
+       grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar5_result': tensor([ 1.0000e+01+2.0862e-07j,  1.2517e-06-7.1526e-07j,
+        -5.9605e-07+0.0000e+00j,  ...,
+         9.9979e+00+1.8406e-01j,  9.9991e+00+1.2271e-01j,
+         9.9998e+00+6.1359e-02j], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar6_result': tensor([1.0280e+03+2172.9883j, 6.0000e+00+1303.7917j, 4.0000e+00+956.1045j,
+         ..., 4.1020e+03-2172.9917j, 3.0760e+03+1303.7959j,
+        2.0540e+03+1303.7959j], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar7_result': tensor([ 2.0480e+04+9.7656e-04j,  2.0480e+04+1.2566e+02j,
+         2.0478e+04+2.5132e+02j,  ...,
+        -8.5449e-04-2.5940e-04j, -1.8311e-03-6.3705e-04j,
+         2.1973e-03-2.4242e-03j], device='cuda:0', grad_fn=<CloneBackward0>),
+    'input_data': tensor([1., 2., 3., 4.], device='cuda:0', grad_fn=<ToCopyBackward0>),
+    'result': tensor([ 2.0480e+04+9.7656e-04j,  2.0480e+04+1.2566e+02j,
+         2.0478e+04+2.5132e+02j,  ...,
+        -8.5449e-04-2.5940e-04j, -1.8311e-03-6.3705e-04j,
+         2.1973e-03-2.4242e-03j], device='cuda:0', grad_fn=<FftC2CBackward0>)}
