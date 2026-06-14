@@ -1,0 +1,12 @@
+torch.overrides.save_function = (lambda x: x)
+torch.overrides.custom_type_deserializer = (lambda x: 0)
+torch.overrides.custom_type_serializer = (lambda x: x)
+torch.overrides.remove_unwanted_function = (lambda x: x)
+torch.autograd.Function = (lambda x: torch.tensor(x))
+x = torch.ones(10, requires_grad=True)
+y = torch.rand(10, requires_grad=True)
+z = (x + y)
+result = torch.sum(z)
+result = torch.overrides.get_overridable_functions()
+for fn in result:
+    print(fn)

@@ -1,0 +1,13 @@
+
+mat1 = torch.sparse_coo_tensor(torch.tensor([[0, 1], [2, 3]]), torch.tensor([1.0, 2.0]), (4, 5))
+mat2 = torch.randn(5, 8)
+mat2 = mat2.to_dense()
+result = torch.hspmm(mat1, mat2)
+torch.set_printoptions(threshold=100, edgeitems=100, linewidth=600)
+mat1 = mat1.to_dense()
+mat2 = mat2.to_dense()
+result = result.to_dense()
+torch.testing.assert_allclose(result, torch.mm(mat1, mat2))
+mat1 = mat1.to_dense()
+result = result.to_dense()
+torch.testing.assert_allclose(result, torch.mm(mat1, mat2))

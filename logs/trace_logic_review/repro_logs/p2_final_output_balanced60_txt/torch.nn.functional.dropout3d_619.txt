@@ -1,0 +1,14 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781426990.126123  161858 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781426990.163512  161858 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781426991.123533  161858 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 4
+Last lines before problem: 
+1 > 
+2 > input_tensor = torch.randn(3, 4, 4, 5, 5).type(torch.FloatTensor)
+3 > output_tensor = torch.nn.functional.dropout(input_tensor, 0.5, False)
+4 > output = torch.nn.functional.dropout3d(output_tensor, 0.5)
+InternalRandomFail 
