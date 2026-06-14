@@ -1,0 +1,43 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419885.703552  263995 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781419885.742817  263995 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419886.722802  263995 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+:9: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /pytorch/torch/csrc/tensor/python_tensor.cpp:78.)
+
+FrameworkSingle DuelFinished 420 Problem since line 3
+Last lines before problem: 
+1 > 
+2 > A = torch.FloatTensor(np.random.rand(3, 3))
+3 > (eigenvalues, eigenvectors) = torch.linalg.eigh(A)
+VarInconsistentCatch 
+diff:['eigenvectors']
+CPU:
+{   'A': tensor([[0.3156, 0.4530, 0.2670],
+        [0.1089, 0.8682, 0.6297],
+        [0.3525, 0.0675, 0.6264]]),
+    'PassFlattenCallTempVar1': array([[0.31564591, 0.45303068, 0.26698226],
+       [0.10892818, 0.86816648, 0.62972852],
+       [0.35251871, 0.0675376 , 0.62635059]]),
+    'PassLogTorchIntermediateTempVar2_A': tensor([[0.3156, 0.4530, 0.2670],
+        [0.1089, 0.8682, 0.6297],
+        [0.3525, 0.0675, 0.6264]]),
+    'eigenvalues': tensor([0.0819, 0.7481, 0.9802]),
+    'eigenvectors': tensor([[ 0.8413,  0.3522, -0.4101],
+        [-0.0705, -0.6807, -0.7292],
+        [-0.5360,  0.6424, -0.5478]])}
+GPU:
+{   'A': tensor([[0.3156, 0.4530, 0.2670],
+        [0.1089, 0.8682, 0.6297],
+        [0.3525, 0.0675, 0.6264]], device='cuda:0'),
+    'PassFlattenCallTempVar1': array([[0.31564591, 0.45303068, 0.26698226],
+       [0.10892818, 0.86816648, 0.62972852],
+       [0.35251871, 0.0675376 , 0.62635059]]),
+    'PassLogTorchIntermediateTempVar2_A': tensor([[0.3156, 0.4530, 0.2670],
+        [0.1089, 0.8682, 0.6297],
+        [0.3525, 0.0675, 0.6264]], device='cuda:0'),
+    'eigenvalues': tensor([0.0819, 0.7481, 0.9802], device='cuda:0'),
+    'eigenvectors': tensor([[ 0.8413, -0.3522, -0.4101],
+        [-0.0705,  0.6807, -0.7292],
+        [-0.5360, -0.6424, -0.5478]], device='cuda:0')}

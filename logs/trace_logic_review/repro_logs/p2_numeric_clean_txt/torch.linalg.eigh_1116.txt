@@ -1,0 +1,83 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419820.693377  258856 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781419820.733130  258856 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419821.711503  258856 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 12
+Last lines before problem: 
+9 > A = (eigenvalues * eigenvectors)
+10 > eigenvalues.requires_grad_(True)
+11 > eigenvectors.requires_grad_(True)
+12 > (eigenvalues, eigenvectors) = torch.linalg.eigh(A)
+VarInconsistentCatch 
+diff:['eigenvectors']
+CPU:
+{   'A': tensor([[0.1005, 0.0399, 0.1176],
+        [0.0303, 0.0547, 0.0355],
+        [0.1086, 0.0888, 0.0451]]),
+    'PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]]),
+    'PassFlattenCallTempVar3': tensor([0.1000, 0.1000, 0.1000], requires_grad=True),
+    'PassFlattenCallTempVar4': tensor([[1.0054, 0.3990, 1.1759],
+        [0.3028, 0.5475, 0.3554],
+        [1.0856, 0.8876, 0.4506]], requires_grad=True),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]]),
+    'PassLogTorchIntermediateTempVar2_eigenvalues': tensor([0.0000, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000, 0.7000, 0.8000,
+        0.9000, 1.0000, 1.1000, 1.2000, 1.3000, 1.4000, 1.5000, 1.6000, 1.7000,
+        1.8000, 1.9000, 2.0000, 2.1000, 2.2000, 2.3000, 2.4000, 2.5000, 2.6000,
+        2.7000, 2.8000, 2.9000], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_eigenvectors': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554],
+        [0.8856, 0.6876, 0.2506]]),
+    'PassLogTorchIntermediateTempVar5_eigenvalues': tensor([0., 0., 0.]),
+    'PassLogTorchIntermediateTempVar6_A': tensor([[0.1005, 0.0399, 0.1176],
+        [0.0303, 0.0547, 0.0355],
+        [0.1086, 0.0888, 0.0451]]),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar3': tensor([0.1000, 0.1000, 0.1000], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar8_PassFlattenCallTempVar4': tensor([[1.0054, 0.3990, 1.1759],
+        [0.3028, 0.5475, 0.3554],
+        [1.0856, 0.8876, 0.4506]], grad_fn=<CloneBackward0>),
+    '_': 99,
+    'eigenvalues': tensor([-0.0666,  0.0434,  0.2235]),
+    'eigenvectors': tensor([[ 0.4217,  0.6297, -0.6525],
+        [ 0.4643, -0.7680, -0.4411],
+        [-0.7788, -0.1170, -0.6162]])}
+GPU:
+{   'A': tensor([[0.1005, 0.0399, 0.1176],
+        [0.0303, 0.0547, 0.0355],
+        [0.1086, 0.0888, 0.0451]], device='cuda:0'),
+    'PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]], device='cuda:0'),
+    'PassFlattenCallTempVar3': tensor([0.1000, 0.1000, 0.1000], device='cuda:0', requires_grad=True),
+    'PassFlattenCallTempVar4': tensor([[1.0054, 0.3990, 1.1759],
+        [0.3028, 0.5475, 0.3554],
+        [1.0856, 0.8876, 0.4506]], device='cuda:0', requires_grad=True),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_eigenvalues': tensor([0.0000, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000, 0.7000, 0.8000,
+        0.9000, 1.0000, 1.1000, 1.2000, 1.3000, 1.4000, 1.5000, 1.6000, 1.7000,
+        1.8000, 1.9000, 2.0000, 2.1000, 2.2000, 2.3000, 2.4000, 2.5000, 2.6000,
+        2.7000, 2.8000, 2.9000], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_eigenvectors': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554],
+        [0.8856, 0.6876, 0.2506]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_eigenvalues': tensor([0., 0., 0.], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6_A': tensor([[0.1005, 0.0399, 0.1176],
+        [0.0303, 0.0547, 0.0355],
+        [0.1086, 0.0888, 0.0451]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar3': tensor([0.1000, 0.1000, 0.1000], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar8_PassFlattenCallTempVar4': tensor([[1.0054, 0.3990, 1.1759],
+        [0.3028, 0.5475, 0.3554],
+        [1.0856, 0.8876, 0.4506]], device='cuda:0', grad_fn=<CloneBackward0>),
+    '_': 99,
+    'eigenvalues': tensor([-0.0666,  0.0434,  0.2235], device='cuda:0'),
+    'eigenvectors': tensor([[ 0.4217, -0.6297,  0.6525],
+        [ 0.4643,  0.7680,  0.4411],
+        [-0.7788,  0.1170,  0.6162]], device='cuda:0')}

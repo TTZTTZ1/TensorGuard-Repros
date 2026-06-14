@@ -1,0 +1,67 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419814.309683  258411 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781419814.349015  258411 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781419815.322248  258411 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 10
+Last lines before problem: 
+7 > eigenvalues += 0.1
+8 > eigenvectors += 0.2
+9 > A = torch.randn(3, 3)
+10 > (eigenvalues, eigenvectors) = torch.linalg.eigh(A)
+VarInconsistentCatch 
+diff:['eigenvectors']
+CPU:
+{   'A': tensor([[ 0.5990, -0.3995,  0.8457],
+        [-0.5011,  1.5339,  1.0259],
+        [-0.0294,  1.4864, -0.2121]]),
+    'PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]]),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]]),
+    'PassLogTorchIntermediateTempVar2_eigenvalues': tensor([0.0000, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000, 0.7000, 0.8000,
+        0.9000, 1.0000, 1.1000, 1.2000, 1.3000, 1.4000, 1.5000, 1.6000, 1.7000,
+        1.8000, 1.9000, 2.0000, 2.1000, 2.2000, 2.3000, 2.4000, 2.5000, 2.6000,
+        2.7000, 2.8000, 2.9000], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_eigenvectors': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554],
+        [0.8856, 0.6876, 0.2506]]),
+    'PassLogTorchIntermediateTempVar5_eigenvalues': tensor([0., 0., 0.]),
+    'PassLogTorchIntermediateTempVar6_A': tensor([[ 0.5990, -0.3995,  0.8457],
+        [-0.5011,  1.5339,  1.0259],
+        [-0.0294,  1.4864, -0.2121]]),
+    '_': 99,
+    'eigenvalues': tensor([-1.0934,  0.5220,  2.4922]),
+    'eigenvectors': tensor([[-0.1355,  0.9631, -0.2326],
+        [-0.5073,  0.1343,  0.8512],
+        [ 0.8511,  0.2333,  0.4704]])}
+GPU:
+{   'A': tensor([[ 0.5990, -0.3995,  0.8457],
+        [-0.5011,  1.5339,  1.0259],
+        [-0.0294,  1.4864, -0.2121]], device='cuda:0'),
+    'PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_PassFlattenCallTempVar1': tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_eigenvalues': tensor([0.0000, 0.1000, 0.2000, 0.3000, 0.4000, 0.5000, 0.6000, 0.7000, 0.8000,
+        0.9000, 1.0000, 1.1000, 1.2000, 1.3000, 1.4000, 1.5000, 1.6000, 1.7000,
+        1.8000, 1.9000, 2.0000, 2.1000, 2.2000, 2.3000, 2.4000, 2.5000, 2.6000,
+        2.7000, 2.8000, 2.9000], device='cuda:0', grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar3_eigenvectors': tensor([[0.8054, 0.1990, 0.9759],
+        [0.1028, 0.3475, 0.1554],
+        [0.8856, 0.6876, 0.2506]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_eigenvalues': tensor([0., 0., 0.], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6_A': tensor([[ 0.5990, -0.3995,  0.8457],
+        [-0.5011,  1.5339,  1.0259],
+        [-0.0294,  1.4864, -0.2121]], device='cuda:0'),
+    '_': 99,
+    'eigenvalues': tensor([-1.0934,  0.5220,  2.4922], device='cuda:0'),
+    'eigenvectors': tensor([[-0.1355, -0.9631,  0.2326],
+        [-0.5073, -0.1343, -0.8512],
+        [ 0.8511, -0.2333, -0.4704]], device='cuda:0')}
