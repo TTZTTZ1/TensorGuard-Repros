@@ -21,6 +21,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 sparse all rejected/noise | 0 accepted | 1322 logs + source snapshots | 1317 SparseCPU `eq` comparator failures and 5 SparseCsr unsupported-layout comparator failures |
 | P2 numeric remaining all rejected/noise | 0 accepted | 119 logs + source snapshots | `svd`/`qr` decomposition ambiguity, disputed `addmm_` alias family, ill-conditioned linear algebra, conv numeric tolerance, and documented `lstsq` driver differences |
 | P3 max unpool rejected/noise | 0 accepted | 568 logs + source snapshots | Generated programs use repeated/random/manual indices instead of indices returned by `MaxPool`; PyTorch docs explicitly warn repeated indices may be nondeterministic |
+| P3 logic all rejected/noise | 0 accepted | 552 logs + source snapshots | Mostly TitanFuzz instrumentation variables, generated uninitialized tensors, documented unstable sort/duplicate-index behavior, broadcasted-view in-place writes, global thread state, and numerical boundary noise |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -718,11 +719,12 @@ Conclusion:
 This batch should not be counted as PyTorch bugs.
 The observed CPU/CUDA differences are explained by generated invalid or nondeterministic `indices`, not a clean backend correctness issue.
 
-## Next Review Target
+## P3 Logic All Review
 
-N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is the remaining P3 `logic_inconsistency_needs_review` queue.
-After closing the max-unpool queue, P3 has 552 source candidates across 76 API families:
+**Status:** reviewed, 0 new accepted candidates.
+
+The remaining P3 `logic_inconsistency_needs_review` queue was run as `p3_logic_all`.
+It contains 552 source candidates across 76 API families:
 
 ```text
 logic_inconsistency_needs_review: 552 sources, 76 API families
@@ -743,7 +745,71 @@ torch.Tensor.corrcoef:          13
 torch.Tensor.flipud:            13
 ```
 
-Review rule for P3:
+Run status:
+
+```text
+VarInconsistentCatch: 527
+Other:                 13
+No problem found:      10
+BothExecFail:           2
+```
+
+Important source/log findings:
+
+```text
+torch.Tensor.bool: 124 VarInconsistentCatch logs diff only TitanFuzz Pass* temporaries.
+torch.Tensor.sgn_: 93 logs; representative final _input_tensor is identical on CPU/GPU, diff is only an instrumentation temporary.
+torch.nn.BatchNorm3d: 45 logs; all diff lists contain only PassLog/PassFlatten temporaries, not the BatchNorm output.
+torch.get_num_interop_threads / torch.set_num_threads: global thread-state differences, not tensor backend correctness.
+torch.Tensor.argsort / transpose / flipud: differences come from argsort/sort on tied values; default stable=False does not guarantee equal-value order.
+torch.Tensor.put_: generated duplicate indices with accumulate=False; official semantics make duplicate-index behavior undefined.
+torch.Tensor.broadcast_to: generated code writes in-place through an expanded/broadcast view; expand warns multiple elements may share one memory location.
+torch.Tensor.sub_ / floor_divide / tan / polygamma / matrix_exp / linalg singletons: mostly near-zero division, overflow, non-finite or expected CPU/GPU numerical differences.
+Several singletons use torch.Tensor(size) / torch.FloatTensor(size), which creates uninitialized data rather than initialized values.
+Other logs are generated-code or instrumentation syntax failures, e.g. empty for/with/if blocks after transformation.
+```
+
+Representative rejected examples:
+
+```text
+torch.Tensor.sgn__1000.py:
+  _input_tensor = torch.rand(2, 5)
+  _input_tensor = torch.tensor(_input_tensor).to('cpu')
+  torch.Tensor.sgn_(_input_tensor)
+
+  Final _input_tensor is all ones on CPU and GPU; only PassFlattenCallTempVar1 differs.
+
+torch.Tensor.argsort_200.py:
+  output_tensor = torch.Tensor.argsort(torch.argsort(input_tensor, descending=True, dim=0))
+
+  The inner argsort produces tied integer values, so the outer argsort compares equal elements.
+
+torch.Tensor.put__100.py:
+  index = torch.tensor([[0, 1], [1, 2]])
+  torch.Tensor.put_(input_tensor, index, source, accumulate=False)
+
+  Index value 1 is duplicated; duplicate-index behavior is undefined when accumulate=False.
+
+torch.Tensor.broadcast_to_919.py:
+  result = torch.Tensor.broadcast_to(torch.tensor([1, 2]), (3, 2))
+  result[0] = 0.0
+  result[0] = 1.0
+
+  This writes through an expanded view where rows may alias the same storage.
+```
+
+Conclusion:
+
+This batch should not be counted as PyTorch bugs.
+It still supports the project story because it shows why source-aware triage is necessary:
+raw `VarInconsistentCatch` is too noisy to be used as a bug count.
+
+## Next Review Target
+
+N1-002 is clean enough to send to the senior student as a strong boundary candidate.
+The next useful work is not to rerun `p3_logic_all`; it is to move to crash/internal-assert style candidates or create independent minimal repros for any future high-signal trace entries.
+
+Review rule for future P3-like batches:
 
 ```text
 Do not accept a case only because TitanFuzz reports VarInconsistentCatch.
