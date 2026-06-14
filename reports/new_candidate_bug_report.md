@@ -17,6 +17,20 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
+## Review Evidence Standard
+
+Logs are treated only as an index to suspicious behavior.
+A candidate should be added to the accepted/confirmed list only after all of the following are checked:
+
+```text
+1. Read the original generated source file under Results/torch.
+2. Confirm that the logged failure maps to the actual source behavior.
+3. Build or review an independent minimal repro, not only the TitanFuzz-instrumented log.
+4. Classify whether the behavior is a framework issue, expected math/library behavior, generated-code bug, or tool-comparator artifact.
+```
+
+For future batches, the corresponding source files should be copied or referenced together with the logs so review is not based on logs alone.
+
 ## N1-001: cuDNN RNN `flatten_parameters` Internal Assert
 
 **Status:** accepted candidate, pending senior judgment.
@@ -28,6 +42,9 @@ Counting rule: multiple generated programs are counted as one candidate if they 
 ```text
 Results/torch/valid/torch.nn.RNNBase_1117.py
 ```
+
+**Source review status:** reviewed.
+The generated source explicitly mutates `lstm_base.bidirectional = True` after constructing a one-direction LSTM and then calls `lstm_base.flatten_parameters()`.
 
 **Minimal repro:**
 
@@ -95,6 +112,10 @@ Results/torch/valid/torch.nn.functional.fractional_max_pool3d_584.py
 Results/torch/valid/torch.nn.functional.fractional_max_pool3d_590.py
 Results/torch/valid/torch.nn.functional.fractional_max_pool3d_614.py
 ```
+
+**Source review status:** reviewed.
+The representative generated source reshapes `(100, 3, 128, 128)` into `(-1, 4, 4, 4)`, producing `C=76800` for the unbatched 4D fractional max pool input.
+That source-level shape explains why the independent reduction focused on the channel boundary around `65536`.
 
 **Independent repro:**
 
@@ -246,6 +267,16 @@ Reviewed logs:
 logs/trace_logic_review/repro_logs/p2_numeric_clean_txt/
 logs/trace_logic_review/repro_logs/p2_numeric_clean_summary.txt
 ```
+
+Representative sources reviewed:
+
+```text
+Results/torch/valid/torch.linalg.eigh_1056.py
+Results/torch/valid/torch.linalg.svd_130.py
+```
+
+These sources directly call `torch.linalg.eigh(torch.ones((3, 3)))` and `torch.linalg.svd(A)`.
+That matches the log-level conclusion: the observed differences are in decomposition vectors, not in eigenvalues or singular values.
 
 Summary:
 
