@@ -9,7 +9,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
-| Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times | Keep for senior review, but N1-002 still needs minimization |
+| Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
 | Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
@@ -83,7 +83,7 @@ However, the presence of `INTERNAL ASSERT FAILED` and `please report a bug to Py
 
 ## N1-002: `fractional_max_pool3d` CPU Succeeds But CUDA Raises Invalid Argument
 
-**Status:** confirmed candidate, needs minimization.
+**Status:** confirmed boundary candidate.
 
 **Primary API:** `torch.nn.functional.fractional_max_pool3d`.
 
@@ -107,6 +107,8 @@ repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_584.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584_3runs.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/sweep_cpu.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/sweep_cuda.txt
 ```
 
 **Observed behavior:**
@@ -132,16 +134,34 @@ torch.AcceleratorError: CUDA error: invalid argument
 
 CUDA reproduced the same failure in 3 out of 3 runs.
 
+**Boundary sweep:**
+
+CPU succeeds for every tested channel count:
+
+```text
+C=1, 8, 64, 512, 4096, 16384, 32768, 65535, 65536, 70000, 76800
+```
+
+CUDA succeeds through `C=65535`, then fails at `C=65536` and above:
+
+```text
+C=65535: OK (65535, 1, 1, 1)
+C=65536: AcceleratorError: CUDA error: invalid argument
+C=70000: AcceleratorError: CUDA error: invalid argument
+C=76800: AcceleratorError: CUDA error: invalid argument
+```
+
 **Current root-cause hypothesis:**
 
-The failure may be related to a very large unbatched channel dimension: `x` is shaped as `(C, D, H, W)` with `C=76800`.
-CPU accepts the shape and computes the result, while CUDA returns a low-level invalid-argument error.
-This may be a CUDA kernel launch/grid-limit issue or a missing CUDA-side validation path.
+The failure is strongly tied to the unbatched channel dimension crossing `65535`.
+`x` is shaped as `(C, D, H, W)`, and CUDA starts failing at `C=65536`.
+This looks like a CUDA kernel launch/grid-dimension boundary or a missing CUDA-side validation path.
+CPU accepts the same shape and computes a result.
 
 **Caveat:**
 
 This candidate is stronger than a `torch2cuda.py` comparison artifact because it was independently reproduced.
-However, it is not fully minimized yet. We should find the smallest failing channel count before presenting it as a clean bug.
+However, it uses a very large unbatched channel dimension. It should be presented honestly as a boundary-condition CPU/CUDA discrepancy or CUDA error-handling issue, not as a common small-shape model bug.
 
 ## P1 Non-RNNBase Review
 
@@ -182,13 +202,21 @@ These are not evidence of actual CPU/CUDA output differences. They show that the
 
 ## Next Review Target
 
-Next, minimize N1-002:
+Next, finish packaging N1-002:
 
 ```text
-Find the smallest channel count C where:
-CPU: F.fractional_max_pool3d(torch.randn(C, 4, 4, 4), kernel_size=(2,2,2), output_size=(1,1,1)) succeeds
+Create a minimal C=65536 repro:
+CPU: F.fractional_max_pool3d(torch.randn(65536, 4, 4, 4), kernel_size=(2,2,2), output_size=(1,1,1)) succeeds
 CUDA: the same call raises CUDA invalid argument
 ```
+
+Also test a 5D version once:
+
+```text
+x.shape = (1, 65536, 4, 4, 4)
+```
+
+If the 5D version also fails at the same boundary, the issue is cleaner. If only the 4D unbatched version fails, report that nuance.
 
 After that, continue with P2 `numeric_consistency_check_needed`, but skip alias-heavy APIs first.
 
