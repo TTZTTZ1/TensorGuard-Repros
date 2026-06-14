@@ -123,19 +123,19 @@ logs/audit_next/runs/p2_index_exception_focus/
 
 | 序号 | 候选 | 结论 |
 |---:|---|---|
-| 1 | `torch.Tensor.gather_109` | 待独立复测。`torch2cuda` 同进程 duel 中 CPU/GPU 都显示 `AcceleratorError CUDA error: device-side assert triggered`，疑似 CUDA 上下文污染。源码注释指向 `index 3 is out of bounds for dimension 1 with size 3`，如果独立 CPU/GPU 进程分别表现为 CPU `RuntimeError`、CUDA device-side assert，可作为 C3 的新 API 证据。 |
+| 1 | `torch.Tensor.gather_109` | 已确认。独立进程复测后，CPU 为 `RuntimeError: index 3 is out of bounds for dimension 1 with size 3`，CUDA 为 `ScatterGatherKernel.cu` device-side assert。可作为 C3 风格异常语义不一致的新 API 证据。 |
 | 2 | `torch.Tensor.index_copy_1083` | 不收录。CPU/GPU 都是相同 `IndexError`: source/destination 维度不匹配。 |
 | 3 | `torch.Tensor.index_fill_100` | 不收录。生成代码变量 `input_tensor_shape` 未定义。 |
 | 4 | `torch.Tensor.index_select_1011` | 不收录。`No problem found`。 |
 | 5 | `torch.Tensor.scatter__1018` | 不收录。生成代码变量 `output_tensor` 未定义。 |
-| 6 | `torch.Tensor.take_1002` | 待独立复测。`torch2cuda` 同进程 duel 中 CPU/GPU 都显示 CUDA device-side assert，疑似 CUDA 上下文污染。源码片段为长度 2 张量配 `torch.arange(3)`，应检查独立进程下 CPU 是否为 out-of-range `RuntimeError`、CUDA 是否为 device-side assert。 |
+| 6 | `torch.Tensor.take_1002` | 已确认。独立进程复测后，CPU 为 `IndexError: out of range: tried to access index 2 on a tensor of 2 elements`，CUDA 为 `IndexKernel.cu` device-side assert。可作为 C3 风格异常语义不一致的新 API 证据。 |
 | 7 | `torch.gather_1034` | 不收录。生成代码 `torch.arange(5)(5, 4)` 把 Tensor 当函数调用，CPU/GPU 同样 `TypeError`。 |
 | 8 | `torch.nn.functional.cross_entropy_1080` | 不收录。生成代码使用错误参数名 `weights`，CPU/GPU 同样 `TypeError`。 |
 | 9 | `torch.nn.functional.embedding_109` | 不收录。生成代码变量 `input_data` 未定义。 |
 | 10 | `torch.nn.functional.nll_loss_1012` | 不收录。`No problem found`。 |
 
-本批暂不新增 confirmed candidate。
-下一步只需对 `gather` 和 `take` 做独立 CPU/GPU 进程最小复现，不建议继续直接顺序跑 5 万多个 trace P2 候选。
+本批新增 1 个 confirmed exception-mismatch 家族：invalid index `gather` / `take`，覆盖 2 个 API 证据。
+计数时建议作为 C3 风格异常语义不一致的一类补充证据，不要表述为两个完全独立底层 bug。
 
 ## 下一步建议
 

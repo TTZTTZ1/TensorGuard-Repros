@@ -1,6 +1,6 @@
 # New Candidate Bug Report
 
-Updated: 2026-06-14
+Updated: 2026-06-15
 
 This report is intentionally separate from `accepted_bug_report.md` and `accepted_bug_inventory.csv`.
 The earlier alias / invalid-input candidates were reviewed by the senior student and should not be mixed into this new count.
@@ -9,7 +9,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
-| Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
+| Newly accepted / confirmed candidates | 3 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536`; invalid index `gather`/`take` CPU RuntimeError vs CUDA device-side assert confirmed in independent processes | Keep for senior review |
 | Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
@@ -227,6 +227,107 @@ CPU accepts the same shape and computes a result.
 
 This candidate is stronger than a `torch2cuda.py` comparison artifact because it was independently reproduced.
 However, it uses a very large channel dimension. It should be presented honestly as a boundary-condition CPU/CUDA discrepancy or CUDA error-handling issue, not as a common small-shape model bug.
+
+## N1-003: Invalid Index `gather` / `take` CPU RuntimeError vs CUDA Device-Side Assert
+
+**Status:** confirmed exception-mismatch candidate, pending senior judgment.
+
+**Primary APIs:**
+
+```text
+torch.Tensor.gather
+torch.Tensor.take
+```
+
+**Representative generated sources:**
+
+```text
+Results/torch/exception/torch.Tensor.gather_109.py
+Results/torch/exception/torch.Tensor.take_1002.py
+```
+
+**Independent repros:**
+
+```text
+repros/pytorch/index_exception_mismatch/repro_gather_invalid_index.py
+repros/pytorch/index_exception_mismatch/repro_take_oob_index.py
+```
+
+**Evidence logs:**
+
+```text
+logs/audit_next/runs/p2_index_exception_independent/gather_cpu.txt
+logs/audit_next/runs/p2_index_exception_independent/gather_cuda.txt
+logs/audit_next/runs/p2_index_exception_independent/take_cpu.txt
+logs/audit_next/runs/p2_index_exception_independent/take_cuda.txt
+```
+
+**Environment:**
+
+```text
+PyTorch 2.11.0+cu130
+CUDA 13.0
+```
+
+**Observed behavior: `torch.Tensor.gather`**
+
+CPU:
+
+```text
+RuntimeError: index 3 is out of bounds for dimension 1 with size 3
+```
+
+CUDA:
+
+```text
+/pytorch/aten/src/ATen/native/cuda/ScatterGatherKernel.cu:163:
+Assertion `idx_dim >= 0 && idx_dim < index_size && "scatter gather kernel index out of bounds"` failed.
+torch.AcceleratorError: CUDA error: device-side assert triggered
+```
+
+Minimal pattern:
+
+```python
+x = torch.randn(4, 3, device=device)
+index = torch.tensor([[0, 1, 3], [0, 1, 2], [0, 1, 2], [0, 1, 2]], device=device)
+y = torch.Tensor.gather(x, 1, index)
+```
+
+**Observed behavior: `torch.Tensor.take`**
+
+CPU:
+
+```text
+IndexError: out of range: tried to access index 2 on a tensor of 2 elements.
+```
+
+CUDA:
+
+```text
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:339:
+Assertion `idx < numel && idx >= -numel && "cuda_take_put_kernel() index out of bounds"` failed.
+torch.AcceleratorError: CUDA error: device-side assert triggered
+```
+
+Minimal pattern:
+
+```python
+x = torch.tensor([1, 2], dtype=torch.int32, device=device)
+indices = torch.arange(3, device=device)
+y = torch.Tensor.take(x, indices)
+```
+
+**Root-cause pattern:**
+
+Both repros pass an invalid index.
+CPU validates the index and raises a normal Python-facing `RuntimeError`/`IndexError`.
+CUDA enters a device-side assertion path, which raises `torch.AcceleratorError` and may poison the CUDA context for subsequent operations in the same process.
+
+**Caveat:**
+
+This is an invalid-input error-handling issue, not a normal-input numerical correctness bug.
+It should be grouped with the existing C3-style exception-mismatch family rather than counted as two independent deep backend bugs.
+It is still useful evidence because the independent CPU/CUDA process runs rule out the earlier `torch2cuda.py` same-process contamination concern.
 
 ## P1 Non-RNNBase Review
 
