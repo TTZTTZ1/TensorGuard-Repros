@@ -1,0 +1,108 @@
+torch: 2.11.0+cu130
+cuda: 13.0
+device: NVIDIA L40
+
+case=torch.fft.hfft_570
+shape=(20478,) dtype=torch.float32
+finite_mask_equal=True
+cpu_finite=20478/20478
+gpu_finite=20478/20478
+max_abs=3
+mean_abs=0.0213241987
+max_rel=10371.917
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=False
+
+case=torch.fft.hfft_779
+shape=(16382,) dtype=torch.float32
+finite_mask_equal=True
+cpu_finite=16382/16382
+gpu_finite=16382/16382
+max_abs=16
+mean_abs=0.140734643
+max_rel=19972.3711
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=False
+
+case=torch.fft.hfft_782
+shape=(1, 16382) dtype=torch.float32
+finite_mask_equal=True
+cpu_finite=16382/16382
+gpu_finite=16382/16382
+max_abs=16
+mean_abs=0.140734643
+max_rel=19972.3711
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=False
+
+case=torch.fft.ifftn_1255
+shape=(2, 32768) dtype=torch.complex64
+finite_mask_equal=True
+cpu_finite=65536/65536
+gpu_finite=65536/65536
+max_abs=9.60742796e-07
+mean_abs=1.03473944e-07
+max_rel=1.52498706e-06
+allclose_1e-05=True
+allclose_0.0001=True
+allclose_0.001=True
+allclose_0.01=True
+
+case=torch.fft.ihfft_1059
+shape=(2048,) dtype=torch.complex64
+finite_mask_equal=True
+cpu_finite=2048/2048
+gpu_finite=2048/2048
+max_abs=0.0216832068
+mean_abs=0.00407456607
+max_rel=2.64078464e+09
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=True
+
+case=torch.fft.ihfft_1268
+shape=(1024,) dtype=torch.float32
+finite_mask_equal=True
+cpu_finite=1024/1024
+gpu_finite=1024/1024
+max_abs=0.306815386
+mean_abs=0.0161154084
+max_rel=0.243968293
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=False
+
+case=torch.fft.ihfft_1400
+shape=(2048,) dtype=torch.complex64
+finite_mask_equal=True
+cpu_finite=2048/2048
+gpu_finite=2048/2048
+max_abs=0.00244168052
+mean_abs=5.17970802e-05
+max_rel=450.65802
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=True
+allclose_0.01=True
+
+case=torch.fft.ihfft_773
+shape=(2048,) dtype=torch.complex64
+finite_mask_equal=True
+cpu_finite=2048/2048
+gpu_finite=2048/2048
+max_abs=0.901387811
+mean_abs=0.018419439
+max_rel=6.24999997e+10
+allclose_1e-05=False
+allclose_0.0001=False
+allclose_0.001=False
+allclose_0.01=False
+
