@@ -10,11 +10,12 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
 | Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
-| Pending candidates | 0 | - | - |
+| Pending candidates | 1 | FFT numeric mismatch family | Needs independent tolerance/finite-mask check before accept/reject |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
 | P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
 | P2 conv/ctc first30 rejected/noise | 0 accepted | 30 logs + independent `conv3d` check | `conv3d` explained by TF32/floating-point tolerance; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
+| P2 remaining numeric next30 reviewed | 0 accepted, 1 pending | 30 logs + source snapshots | FFT numeric family pending; `pinverse` divide-by-zero and overflow cases rejected/noise |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -355,18 +356,61 @@ Conclusion:
 
 These `conv3d` logs are best treated as TF32/cuDNN/CPU floating-point-path differences rather than reportable PyTorch bugs.
 
+### P2 Remaining Numeric Next 30
+
+No new accepted candidate was added from this batch yet.
+One FFT numeric family is pending independent tolerance/finite-mask validation.
+
+Reviewed logs and source snapshots:
+
+```text
+logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/
+logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_summary.txt
+logs/trace_logic_review/source_snapshots/p2_remaining_numeric_next30/
+```
+
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Pending numeric validation | 24 | `hfft` / `ihfft` / `ifftn` cases are FFT-heavy legal numeric programs; logs show raw output differences but need tolerance-aware validation |
+| Rejected/no problem | 2 | `torch.fft.rfft_1032` and `torch.fft.rfft_693` report `No problem found` |
+| Rejected / generated numeric overflow | 3 | `rfft_1040`, `rfft_1054`, and `rfft_613` use `cosh` / `sinh` / `exp` on large values, producing `inf` before or around the FFT-relevant result |
+| Rejected / divide-by-zero amplification | 1 | `torch.Tensor.pinverse_721` divides pseudo-inverse values by an input tensor containing zero, turning tiny CPU/GPU sign differences into `+inf` versus `-inf` |
+
+Representative source review:
+
+```text
+torch.Tensor.pinverse_721.py:
+  result = torch.cat((_input_tensor, torch.div(pinverse_result, _input_tensor)), dim=0)
+  _input_tensor contains 0.0, so the division is not a clean framework mismatch.
+
+torch.fft.rfft_1040.py / torch.fft.rfft_1054.py:
+  y = torch.cosh(...) or torch.sinh(...)
+  values overflow to inf, so this is not a clean FFT correctness signal.
+
+torch.fft.ihfft_*:
+  repeated fft/ifft/hfft/ihfft chains on float32 complex tensors.
+  These are plausible numeric-difference cases but need tolerance and finite-mask checks.
+```
+
+Independent checker added:
+
+```text
+scripts/check_fft_numeric_batch.py
+```
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with remaining P2 numeric APIs that are less dominated by known alias/vector-sign/TF32 noise.
+The next step is to run the independent FFT numeric checker.
+Do not accept the FFT family as a bug unless it shows finite-mask mismatch or large error under reasonable tolerances.
 
-Suggested next API groups:
+Run on the server:
 
-```text
-torch.fft.ihfft / rfft / hfft / ifftn
-torch.linalg.cond / lstsq / eigvalsh
-torch.Tensor.pinverse / torch.pinverse
-torch.nn.functional.conv2d / conv_transpose2d
+```bash
+python TensorGuard-Repros/scripts/check_fft_numeric_batch.py \
+  > TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_independent.txt 2>&1
 ```
 
 Skip `torch.Tensor.addmm_` for now because the already reviewed in-place/alias families are easy to misclassify and were disputed by the senior student.
