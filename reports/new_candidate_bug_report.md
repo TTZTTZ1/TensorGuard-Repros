@@ -9,8 +9,8 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
-| Newly accepted candidates | 1 | RNNBase first 20 all share the same assertion; CUDA repro repeated 3 times | Keep for senior review |
-| Pending candidates | 1 | 3 `fractional_max_pool3d` logs | Needs independent CPU/CUDA repro |
+| Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times | Keep for senior review, but N1-002 still needs minimization |
+| Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
 
@@ -81,6 +81,68 @@ The CUDA/cuDNN path hits an internal assertion instead of raising a normal Pytho
 This is not a clean normal-user workflow because it mutates an internal configuration attribute after construction.
 However, the presence of `INTERNAL ASSERT FAILED` and `please report a bug to PyTorch` makes it worth senior review.
 
+## N1-002: `fractional_max_pool3d` CPU Succeeds But CUDA Raises Invalid Argument
+
+**Status:** confirmed candidate, needs minimization.
+
+**Primary API:** `torch.nn.functional.fractional_max_pool3d`.
+
+**Representative generated sources:**
+
+```text
+Results/torch/valid/torch.nn.functional.fractional_max_pool3d_584.py
+Results/torch/valid/torch.nn.functional.fractional_max_pool3d_590.py
+Results/torch/valid/torch.nn.functional.fractional_max_pool3d_614.py
+```
+
+**Independent repro:**
+
+```text
+repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3d_584.py
+```
+
+**Evidence logs:**
+
+```text
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_584.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584_3runs.txt
+```
+
+**Observed behavior:**
+
+CPU:
+
+```text
+device: cpu
+x.shape: (76800, 4, 4, 4)
+random_samples.shape: (76800, 4, 4, 4)
+ok
+y.shape: (76800, 1, 1, 1)
+```
+
+CUDA:
+
+```text
+device: cuda:0
+x.shape: (76800, 4, 4, 4)
+random_samples.shape: (76800, 4, 4, 4)
+torch.AcceleratorError: CUDA error: invalid argument
+```
+
+CUDA reproduced the same failure in 3 out of 3 runs.
+
+**Current root-cause hypothesis:**
+
+The failure may be related to a very large unbatched channel dimension: `x` is shaped as `(C, D, H, W)` with `C=76800`.
+CPU accepts the shape and computes the result, while CUDA returns a low-level invalid-argument error.
+This may be a CUDA kernel launch/grid-limit issue or a missing CUDA-side validation path.
+
+**Caveat:**
+
+This candidate is stronger than a `torch2cuda.py` comparison artifact because it was independently reproduced.
+However, it is not fully minimized yet. We should find the smallest failing channel count before presenting it as a clean bug.
+
 ## P1 Non-RNNBase Review
 
 The P1 non-RNNBase batch did not produce new accepted candidates.
@@ -102,12 +164,11 @@ No new accepted candidate was added from the first P2 batch.
 
 | result | count | files / notes |
 |---|---:|---|
-| Pending | 3 | `torch.nn.functional.fractional_max_pool3d_{584,590,614}` produce CUDA `invalid argument` |
+| Confirmed candidate family | 3 source logs, 1 independent repro | `torch.nn.functional.fractional_max_pool3d_{584,590,614}` map to N1-002 |
 | Rejected/no problem | 11 | `FrameworkSingle DuelFailed 420 No problem found` |
 | Rejected/random | 2 | `bernoulli_`, `gumbel_softmax` produce `InternalRandomFail` |
 
-The `fractional_max_pool3d` cases are not accepted yet because they still depend on `torch2cuda.py --mode duel`.
-They need independent CPU and CUDA repro scripts.
+The `fractional_max_pool3d` cases were independently reproduced after the first P2 batch. They are now tracked as N1-002.
 
 ### P2 `final_output_inconsistency` First 40
 
@@ -121,18 +182,21 @@ These are not evidence of actual CPU/CUDA output differences. They show that the
 
 ## Next Review Target
 
-Next, independently test the pending `fractional_max_pool3d` family:
+Next, minimize N1-002:
 
 ```text
-Results/torch/valid/torch.nn.functional.fractional_max_pool3d_584.py
-Results/torch/valid/torch.nn.functional.fractional_max_pool3d_590.py
-Results/torch/valid/torch.nn.functional.fractional_max_pool3d_614.py
+Find the smallest channel count C where:
+CPU: F.fractional_max_pool3d(torch.randn(C, 4, 4, 4), kernel_size=(2,2,2), output_size=(1,1,1)) succeeds
+CUDA: the same call raises CUDA invalid argument
 ```
 
-Acceptance requirement:
+After that, continue with P2 `numeric_consistency_check_needed`, but skip alias-heavy APIs first.
 
-1. CPU and CUDA are run in separate Python processes.
-2. The input shapes and `random_samples` shapes are printed.
-3. CPU either succeeds or raises a clear Python exception.
-4. CUDA consistently raises `AcceleratorError CUDA error: invalid argument`.
-5. The repro is reduced to the smallest valid `fractional_max_pool3d` call.
+Suggested next numeric APIs:
+
+```text
+torch.nn.functional.conv3d
+torch.linalg.svd
+torch.linalg.eigh
+torch.nn.functional.ctc_loss
+```
