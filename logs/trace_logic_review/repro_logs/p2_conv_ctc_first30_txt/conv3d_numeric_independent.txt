@@ -1,0 +1,186 @@
+torch: 2.11.0+cu130
+cuda: 13.0
+device: NVIDIA L40
+
+===== TF32 True =====
+case=torch.nn.functional.conv3d_1 tf32=True
+shape=(1, 8, 28, 28, 28)
+max_abs=0.0561408997
+mean_abs=0.0104393698
+max_rel=61.1970749
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1028 tf32=True
+shape=(1, 8, 30, 30, 30)
+max_abs=0.0282440186
+mean_abs=0.00477231527
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1134 tf32=True
+shape=(1, 8, 30, 30, 30)
+max_abs=0.0282440186
+mean_abs=0.00477231527
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1136 tf32=True
+shape=(1, 8, 11, 11, 11)
+max_abs=0.0217285156
+mean_abs=0.004579728
+max_rel=15.4115362
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1147 tf32=True
+shape=(1, 8, 30, 30, 30)
+max_abs=0.0282440186
+mean_abs=0.00477231527
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1192 tf32=True
+shape=(1, 8, 32, 32, 32)
+max_abs=0.0282440186
+mean_abs=0.00460893288
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1203 tf32=True
+shape=(1, 8, 32, 32, 32)
+max_abs=0.0271224976
+mean_abs=0.0042960709
+max_rel=104.811981
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1204 tf32=True
+shape=(1, 8, 16, 16, 16)
+max_abs=0.0282440186
+mean_abs=0.00460361876
+max_rel=10.4793024
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1235 tf32=True
+shape=(1, 8, 36, 36, 36)
+max_abs=0.0282440186
+mean_abs=0.00360668125
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+case=torch.nn.functional.conv3d_1245 tf32=True
+shape=(1, 8, 36, 36, 36)
+max_abs=0.0282440186
+mean_abs=0.00360668125
+max_rel=73.3431244
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=False
+
+===== TF32 False =====
+case=torch.nn.functional.conv3d_1 tf32=False
+shape=(1, 8, 28, 28, 28)
+max_abs=0.000503540039
+mean_abs=3.29693139e-05
+max_rel=0.0565944873
+allclose_1e-5=False
+allclose_1e-4=False
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1028 tf32=False
+shape=(1, 8, 30, 30, 30)
+max_abs=9.91821289e-05
+mean_abs=5.18514662e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1134 tf32=False
+shape=(1, 8, 30, 30, 30)
+max_abs=9.91821289e-05
+mean_abs=5.18514662e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1136 tf32=False
+shape=(1, 8, 11, 11, 11)
+max_abs=6.86645508e-05
+mean_abs=4.76442665e-06
+max_rel=0.00747729419
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1147 tf32=False
+shape=(1, 8, 30, 30, 30)
+max_abs=9.91821289e-05
+mean_abs=5.18514662e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1192 tf32=False
+shape=(1, 8, 32, 32, 32)
+max_abs=9.91821289e-05
+mean_abs=4.86773115e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1203 tf32=False
+shape=(1, 8, 32, 32, 32)
+max_abs=9.15527344e-05
+mean_abs=4.26998031e-06
+max_rel=0.0537190065
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1204 tf32=False
+shape=(1, 8, 16, 16, 16)
+max_abs=6.86645508e-05
+mean_abs=4.86393355e-06
+max_rel=0.024756493
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1235 tf32=False
+shape=(1, 8, 36, 36, 36)
+max_abs=9.91821289e-05
+mean_abs=3.64328639e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
+case=torch.nn.functional.conv3d_1245 tf32=False
+shape=(1, 8, 36, 36, 36)
+max_abs=9.91821289e-05
+mean_abs=3.64328639e-06
+max_rel=0.0687500015
+allclose_1e-5=False
+allclose_1e-4=True
+allclose_1e-3=True
+
