@@ -1,0 +1,11 @@
+Results/torch/exception/torch.distributed.algorithms.JoinHook_6120.py
+Results/torch/exception/torch.distributed.gather_object_496.py
+Results/torch/exception/torch.distributions.exp_family.ExponentialFamily_69.py
+Results/torch/exception/torch.nn.ModuleDict_282.py
+Results/torch/exception/torch.nn.ModuleDict_505.py
+Results/torch/valid/torch.nn.ReplicationPad3d_1030.py
+Results/torch/valid/torch.nn.ReplicationPad3d_1170.py
+Results/torch/exception/torch.nn.functional.pixel_unshuffle_1055.py
+Results/torch/valid/torch.package.Directory_2173.py
+Results/torch/valid/torch.package.PackageImporter_317.py
+Results/torch/valid/torch.std_771.py

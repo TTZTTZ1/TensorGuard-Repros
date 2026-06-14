@@ -1,0 +1,6 @@
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.distributed.algorithms.JoinHook_6120.txt:14:FrameworkCrashCatch 'str' object has no attribute 'pre'
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.distributed.gather_object_496.txt:14:FrameworkCrashCatch 'str' object has no attribute 'pre'
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.distributions.exp_family.ExponentialFamily_69.txt:14:FrameworkCrashCatch 'NoneType' object has no attribute 'pre'
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.nn.ModuleDict_282.txt:14:FrameworkCrashCatch 'NoneType' object has no attribute 'pre'
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.nn.ModuleDict_505.txt:14:FrameworkCrashCatch 'NoneType' object has no attribute 'pre'
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p1_non_rnnbase_txt/torch.std_771.txt:12:FrameworkCrashCatch 'str' object has no attribute 'pre'

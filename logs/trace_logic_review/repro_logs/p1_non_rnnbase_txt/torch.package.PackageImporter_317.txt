@@ -1,0 +1,14 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781417277.543195  100374 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781417277.582537  100374 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781417278.556127  100374 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > torch.set_default_tensor_type(torch.FloatTensor)
+3 > prefix = '/opt/intel/openvino/'
+4 > file_path = 'path_to_your_model.pt'
+5 > if (not file_path.endswith('.pt')):
+expected an indented block after 'if' statement on line 5 ('<unknown>', 5, 36, "if (not file_path.endswith('.pt')):\n", 5, -1)

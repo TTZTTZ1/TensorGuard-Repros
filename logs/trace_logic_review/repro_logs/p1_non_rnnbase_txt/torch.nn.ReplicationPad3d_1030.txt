@@ -1,0 +1,14 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781417120.519470   90766 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781417120.556564   90766 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781417121.527630   90766 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 10
+Last lines before problem: 
+7 > output_tensor = torch.nn.ReplicationPad3d(padding=padding)(input_tensor)
+8 > output_tensor = torch.nn.functional.interpolate(output_tensor, scale_factor=(1, 2, 3), mode='nearest')
+9 > output_tensor = torch.nn.functional.interpolate(output_tensor, scale_factor=(2, 2, 2), mode='nearest')
+10 > output_tensor = torch.nn.functional.interpolate(output_tensor, scale_factor=(1, 1, 1), mode='nearest')
+GpuExecFail OutOfMemoryError CUDA out of memory. Tried to allocate 17.47 GiB. GPU 0 has a total capacity of 44.39 GiB of which 5.36 GiB is free. Process 2908273 has 39.03 GiB memory in use. Of the allocated memory 38.53 GiB is allocated by PyTorch, and 17.22 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
