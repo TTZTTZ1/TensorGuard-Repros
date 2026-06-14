@@ -13,6 +13,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
+| P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -235,16 +236,55 @@ The `fractional_max_pool3d` cases were independently reproduced after the first 
 
 These are not evidence of actual CPU/CUDA output differences. They show that the TitanFuzz comparison layer cannot compare sparse or quantized tensors directly.
 
+### P2 `numeric_consistency_check_needed` Clean Batch
+
+No new accepted candidate was added from this batch.
+
+Reviewed logs:
+
+```text
+logs/trace_logic_review/repro_logs/p2_numeric_clean_txt/
+logs/trace_logic_review/repro_logs/p2_numeric_clean_summary.txt
+```
+
+Summary:
+
+| result | count | reason |
+|---|---:|---|
+| Rejected / expected linear-algebra ambiguity | 47 | `torch.linalg.eigh` differs only in `eigenvectors`; eigenvector signs/bases are not unique |
+| Rejected / expected linear-algebra ambiguity | 1 | `torch.linalg.eigh_404` stores eigenvectors in `_`; same sign-choice issue |
+| Rejected / expected linear-algebra ambiguity | 10 | `torch.linalg.svd` differs only in `U` and `Vt`; SVD vector signs are not unique |
+| Rejected / generated syntax error | 2 | `torch.linalg.eigh_1120` and `torch.linalg.eigh_966` contain an empty `for` block |
+
+Important negative finding:
+
+```text
+No reviewed case showed a direct mismatch in eigenvalues or singular values:
+- no `diff: ['eigenvalues']`
+- no `diff: ['S']`
+```
+
+Conclusion:
+
+These logs should not be reported as PyTorch bugs based on raw `VarInconsistentCatch`.
+For `eigh` and `svd`, the correct validation should compare invariant properties such as eigenvalues/singular values and matrix reconstruction residuals, not raw eigenvector or singular-vector entries.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with P2 `numeric_consistency_check_needed`, while skipping alias-heavy APIs first.
+The next step is to continue with P2 `numeric_consistency_check_needed`, while skipping alias-heavy APIs and raw `eigh`/`svd` vector comparisons first.
 
 Suggested next numeric APIs:
 
 ```text
 torch.nn.functional.conv3d
-torch.linalg.svd
-torch.linalg.eigh
+torch.nn.functional.conv_transpose3d
 torch.nn.functional.ctc_loss
+```
+
+If `eigh` or `svd` is reviewed again, use an invariant checker:
+
+```text
+eigh: compare eigenvalues and reconstruction A ~= Q @ diag(w) @ Q.T
+svd: compare singular values and reconstruction A ~= U @ diag(S) @ Vt
 ```
