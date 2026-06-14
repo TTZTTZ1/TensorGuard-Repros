@@ -1,0 +1,7 @@
+
+input_tensor = torch.randn(1, 1, 4, 4, 4)
+indices = torch.argmax(input_tensor, dim=1, keepdim=True)
+max_unpool = torch.nn.MaxUnpool3d(2, 2, 2)(input_tensor, indices)
+max_unpool = torch.squeeze(max_unpool)
+max_unpool = max_unpool.unsqueeze(1).transpose(1, 2).unsqueeze(0)
+output = max_unpool.transpose(1, 2)

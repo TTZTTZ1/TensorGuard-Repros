@@ -1,0 +1,6 @@
+
+input_tensor = torch.randn(1, 1, 6, 6)
+indices = torch.argmax(input_tensor, dim=1, keepdim=True)
+max_unpool = torch.nn.MaxUnpool2d(2, 2)
+pool_out = max_unpool(input_tensor, indices)
+pool_indices = torch.argmax(pool_out, dim=1)

@@ -1,0 +1,99 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781442412.750746 1237585 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781442412.791088 1237585 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781442413.794887 1237585 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 10
+Last lines before problem: 
+7 > stride = kernel_size
+8 > padding = 0
+9 > output_size = None
+10 > result = torch.nn.functional.max_unpool3d(input, indices, kernel_size, stride, padding, output_size)
+VarInconsistentCatch 
+diff:['result', 'PassLogTorchIntermediateTempVar11_result']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([[[2., 3., 4., 9., 3.],
+         [1., 2., 3., 5., 4.]]]),
+    'PassFlattenCallTempVar2': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]]),
+    'PassLogTorchIntermediateTempVar11_result': tensor([[[[3., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+
+         [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]]]]),
+    'PassLogTorchIntermediateTempVar1_input': tensor([[2., 3., 4., 9., 3.],
+        [1., 2., 3., 5., 4.]]),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([[[2., 3., 4., 9., 3.],
+         [1., 2., 3., 5., 4.]]]),
+    'PassLogTorchIntermediateTempVar3_input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]]),
+    'PassLogTorchIntermediateTempVar4_input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]]),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]]),
+    'PassLogTorchIntermediateTempVar6_indices': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]]),
+    'indices': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]]),
+    'input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]]),
+    'kernel_size': 2,
+    'padding': 0,
+    'result': tensor([[[[3., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+
+         [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]]]]),
+    'stride': 2}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([[[2., 3., 4., 9., 3.],
+         [1., 2., 3., 5., 4.]]], device='cuda:0'),
+    'PassFlattenCallTempVar2': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar11_result': tensor([[[[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+
+         [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_input': tensor([[2., 3., 4., 9., 3.],
+        [1., 2., 3., 5., 4.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_PassFlattenCallTempVar1': tensor([[[2., 3., 4., 9., 3.],
+         [1., 2., 3., 5., 4.]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar5_PassFlattenCallTempVar2': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar6_indices': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]], device='cuda:0'),
+    'indices': tensor([[[[0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]]]], device='cuda:0'),
+    'input': tensor([[[[2., 3., 4., 9., 3.],
+          [1., 2., 3., 5., 4.]]]], device='cuda:0'),
+    'kernel_size': 2,
+    'padding': 0,
+    'result': tensor([[[[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+
+         [[0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+          [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]]]], device='cuda:0'),
+    'stride': 2}

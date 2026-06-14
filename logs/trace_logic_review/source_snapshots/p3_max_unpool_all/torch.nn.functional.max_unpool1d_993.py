@@ -1,0 +1,27 @@
+
+input = torch.randn(1, 20, 20)
+input = torch.Tensor(input)
+indices = torch.argmax(input, dim=2, keepdim=True).expand((- 1), (- 1), input.size(2))
+kernel_size = 3
+stride = None
+padding = 0
+result = torch.nn.functional.max_unpool1d(input, indices, kernel_size, stride, padding, output_size=None)
+result = (result / input.size(1))
+result = result.unsqueeze(dim=2)
+result = torch.abs(result)
+result = torch.sum(result, dim=2)
+result = torch.abs(result)
+result = torch.round(result)
+result = torch.ceil((- result))
+result = torch.trunc(result)
+result = torch.floor(result)
+result = torch.round(((- result) + 1))
+result = torch.trunc((result / 2))
+result = torch.round((result / 2))
+result = torch.trunc((result * 2))
+result = torch.round((result * 2))
+result = torch.trunc((result - result))
+result = torch.trunc(result)
+result = torch.round(result)
+result = torch.floor(((result - result) + 1))
+result = torch.sum(result, dim=1)
