@@ -16,6 +16,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
 | P2 conv/ctc first30 rejected/noise | 0 accepted | 30 logs + independent `conv3d` check | `conv3d` explained by TF32/floating-point tolerance; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
 | P2 remaining numeric next30 rejected/noise | 0 accepted | 30 logs + source snapshots + FFT deep-dive | FFT differences are expected float32 CPU/GPU numeric variance; `pinverse` divide-by-zero and overflow cases rejected/noise |
+| P2 final output balanced51 rejected/noise | 0 accepted | 51 logs + source snapshots | Quantized/sparse outputs hit TitanFuzz comparator limitations; dropout randomness and generated-code errors rejected |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -449,15 +450,66 @@ Conclusion:
 
 These FFT cases are best treated as expected CPU/GPU float32 numerical variance, not reportable PyTorch bugs.
 
+### P2 Final Output Balanced 51
+
+No new accepted candidate was added from this batch.
+The batch is useful because it shows that many `final_output_inconsistency` entries are not real output mismatches; they are unsupported comparison paths in the TitanFuzz checker.
+
+Reviewed logs and source snapshots:
+
+```text
+logs/trace_logic_review/repro_logs/p2_final_output_balanced60_txt/
+logs/trace_logic_review/repro_logs/p2_final_output_balanced60_summary.txt
+logs/trace_logic_review/source_snapshots/p2_final_output_balanced60/
+```
+
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Rejected / quantized comparator limitation | 32 | `torch.quantize_per_tensor`, `torch.quantize_per_channel`, `torch.quantized_max_pool2d`, and `torch.dequantize` logs fail with `isclose is not supported for quantized inputs`; representative sources produce quantized tensors and the failure is in the comparison path |
+| Rejected / sparse comparator limitation | 10 | `torch.hspmm`, `torch.zeros`, and `CorrCholeskyTransform` cases fail because TitanFuzz attempts `aten::eq.Tensor` on `SparseCPU`; representative sources create sparse outputs or convert outputs to sparse |
+| Rejected / generated-code or tool issue | 3 | `torch.overrides.get_overridable_functions` cases either report `No problem found`, fail with generated invalid attribute mutation, or fail with comparator type errors |
+| Rejected / random behavior | 1 | `torch.nn.functional.dropout3d_619` reports `InternalRandomFail`; source uses dropout in training mode without deterministic seeding for the stochastic mask |
+| Rejected / no problem | 5 | `torch.overrides.get_overridable_functions` entries report `No problem found` |
+
+Representative source review:
+
+```text
+torch.quantize_per_tensor_1.py:
+  quantized_data = torch.quantize_per_tensor(input_data, scale, zero_point, dtype)
+  The logged failure is "isclose is not supported for quantized inputs", so this is a checker issue.
+
+torch.hspmm_1.py:
+  mat1 = torch.sparse_coo_tensor(...)
+  result = torch.hspmm(mat1, mat2)
+  The logged failure is "aten::eq.Tensor" unsupported for SparseCPU, so this is a checker issue.
+
+torch.nn.functional.dropout3d_619.py:
+  output = torch.nn.functional.dropout3d(output_tensor, 0.5)
+  The output is stochastic; the log reports InternalRandomFail, not a clean framework bug.
+```
+
+Conclusion:
+
+This batch should not be counted as PyTorch bugs.
+Future final-output review should either skip quantized/sparse outputs or use a semantic comparator first:
+
+```text
+quantized: compare int_repr(), q_scale(), q_zero_point(), qscheme(), dtype, and dequantized values when appropriate
+sparse: compare layout, indices, values, size, coalesced state, and dense result only when invariants are valid
+```
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with remaining non-alias numeric or strong-crash/API clusters.
+The next step is to continue with remaining GPU execution mismatch or strong-crash/API clusters.
 Avoid re-running already explained high-noise families unless using invariant/tolerance-aware checkers.
 
 Suggested next API groups:
 
 ```text
+remaining gpu_exec_or_cuda_assert_mismatch cases, excluding the already accepted fractional_max_pool3d family
 torch.linalg.cond / lstsq / eigvalsh
 torch.pinverse
 torch.nn.functional.conv2d / conv_transpose2d
