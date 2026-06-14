@@ -20,6 +20,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 GPU exec remaining rejected/noise | 0 accepted | 13 logs + source snapshots | 11 reruns report `No problem found`; 2 stochastic APIs report `InternalRandomFail` |
 | P2 sparse all rejected/noise | 0 accepted | 1322 logs + source snapshots | 1317 SparseCPU `eq` comparator failures and 5 SparseCsr unsupported-layout comparator failures |
 | P2 numeric remaining all rejected/noise | 0 accepted | 119 logs + source snapshots | `svd`/`qr` decomposition ambiguity, disputed `addmm_` alias family, ill-conditioned linear algebra, conv numeric tolerance, and documented `lstsq` driver differences |
+| P3 max unpool rejected/noise | 0 accepted | 568 logs + source snapshots | Generated programs use repeated/random/manual indices instead of indices returned by `MaxPool`; PyTorch docs explicitly warn repeated indices may be nondeterministic |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -652,18 +653,29 @@ Conclusion:
 This batch should not be counted as PyTorch bugs.
 The P2 queue is now fully reviewed by the current staged plan.
 
-## Next Review Target
+### P3 Max Unpool All 568
 
-N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is P3.
-P3 has 1120 source candidates across 81 API families:
+No new accepted candidate was added from this batch.
+This batch closes the P3 `max_unpool_index_semantics` queue.
+
+Reviewed logs and source snapshots:
 
 ```text
-max_unpool_index_semantics:       568 sources, 5 API families
-logic_inconsistency_needs_review: 552 sources, 76 API families
+logs/trace_logic_review/queues/p3_max_unpool_all.txt
+logs/trace_logic_review/repro_logs/p3_max_unpool_all_txt/
+logs/trace_logic_review/repro_logs/p3_max_unpool_all_summary.txt
+logs/trace_logic_review/source_snapshots/p3_max_unpool_all/
 ```
 
-Start with `max_unpool_index_semantics` because it is concentrated in five related APIs:
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Rejected / repeated `argmax` indices | 561 | Sources construct `indices` with `torch.argmax(...)`, often followed by `expand` or `expand_as`; these are not the indices returned by the matching `MaxPool` operation and contain many repeated target indices |
+| Rejected / random indices | 6 | Sources construct `indices` with `torch.randint(...)`, so repeated or semantically unrelated target indices are expected |
+| Rejected / manual repeated indices | 1 | `torch.nn.functional.max_unpool1d_seed1.py` uses `indices = torch.tensor([[[1, 1, 1, 1, 1, 1]]])`, forcing all values to the same output position |
+
+API distribution:
 
 ```text
 torch.nn.functional.max_unpool1d: 232
@@ -671,6 +683,64 @@ torch.nn.MaxUnpool3d:             225
 torch.nn.functional.max_unpool3d:  76
 torch.nn.MaxUnpool2d:              30
 torch.nn.functional.max_unpool2d:   5
+```
+
+Representative source review:
+
+```text
+torch.nn.MaxUnpool2d_1016.py:
+  indices = torch.argmax(input_tensor, dim=1, keepdim=True)
+  The tensor has one channel, so indices are all zero.
+  Many input elements write to the same output index.
+
+torch.nn.functional.max_unpool1d_972.py:
+  indices = torch.argmax(input, dim=2, keepdim=True).expand((-1), (-1), input.size(2))
+  Each channel repeats one argmax index across the whole length.
+
+torch.nn.functional.max_unpool3d_1.py:
+  indices = torch.argmax(input, dim=1, keepdim=True).expand_as(input)
+  Channel-wise argmax is expanded to every channel/spatial position.
+
+torch.nn.MaxUnpool3d_seed11.py:
+  indices = torch.randint(0, 2, (1, 1, 4, 4, 4), dtype=torch.long)
+  Random indices are not the inverse-pooling indices produced by `MaxPool3d`.
+```
+
+PyTorch API semantics:
+
+```text
+MaxUnpool takes the output of MaxPool plus the indices of maximal values returned by MaxPool.
+The official docs also warn that MaxUnpool may behave nondeterministically when input indices contain repeated values.
+```
+
+Conclusion:
+
+This batch should not be counted as PyTorch bugs.
+The observed CPU/CUDA differences are explained by generated invalid or nondeterministic `indices`, not a clean backend correctness issue.
+
+## Next Review Target
+
+N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
+The next step is the remaining P3 `logic_inconsistency_needs_review` queue.
+After closing the max-unpool queue, P3 has 552 source candidates across 76 API families:
+
+```text
+logic_inconsistency_needs_review: 552 sources, 76 API families
+```
+
+Highest-count APIs in the remaining P3 queue:
+
+```text
+torch.Tensor.bool:             129
+torch.Tensor.sgn_:              93
+torch.get_num_interop_threads:  61
+torch.nn.BatchNorm3d:           45
+torch.Tensor.sub_:              24
+torch.Tensor.transpose:         23
+torch.set_num_threads:          19
+torch.Tensor.argsort:           15
+torch.Tensor.corrcoef:          13
+torch.Tensor.flipud:            13
 ```
 
 Review rule for P3:
