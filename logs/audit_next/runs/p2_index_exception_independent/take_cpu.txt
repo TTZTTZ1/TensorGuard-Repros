@@ -1,0 +1,7 @@
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cpu
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/index_exception_mismatch/repro_take_oob_index.py", line 11, in <module>
+    y = torch.Tensor.take(x, indices)
+IndexError: out of range: tried to access index 2 on a tensor of 2 elements.

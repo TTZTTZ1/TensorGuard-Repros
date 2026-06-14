@@ -1,0 +1,11 @@
+/pytorch/aten/src/ATen/native/cuda/IndexKernel.cu:339: operator(): block: [0,0,0], thread: [2,0,0] Assertion `idx < numel && idx >= -numel && "cuda_take_put_kernel() index out of bounds"` failed.
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/index_exception_mismatch/repro_take_oob_index.py", line 11, in <module>
+    y = torch.Tensor.take(x, indices)
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

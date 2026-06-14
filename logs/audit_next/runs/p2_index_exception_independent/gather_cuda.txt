@@ -1,0 +1,11 @@
+/pytorch/aten/src/ATen/native/cuda/ScatterGatherKernel.cu:163: operator(): block: [0,0,0], thread: [2,0,0] Assertion `idx_dim >= 0 && idx_dim < index_size && "scatter gather kernel index out of bounds"` failed.
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/index_exception_mismatch/repro_gather_invalid_index.py", line 11, in <module>
+    y = torch.Tensor.gather(x, 1, index)
+torch.AcceleratorError: CUDA error: device-side assert triggered
+Search for `cudaErrorAssert' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
