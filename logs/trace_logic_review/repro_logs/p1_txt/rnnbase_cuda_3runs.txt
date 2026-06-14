@@ -1,0 +1,42 @@
+===== run 1 =====
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+before bidirectional: False
+flat_weights: 4
+after bidirectional: True
+flat_weights: 4
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/rnnbase_flatten_internal_assert/repro_lstm_bidirectional_flatten.py", line 20, in <module>
+    lstm.flatten_parameters()
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/nn/modules/rnn.py", line 285, in flatten_parameters
+    torch._cudnn_rnn_flatten_weight(
+RuntimeError: params_from.size(0) == params_to.size(0) INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/native/cudnn/RNN.cpp":1011, please report a bug to PyTorch. number of layers mismatch
+===== run 2 =====
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+before bidirectional: False
+flat_weights: 4
+after bidirectional: True
+flat_weights: 4
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/rnnbase_flatten_internal_assert/repro_lstm_bidirectional_flatten.py", line 20, in <module>
+    lstm.flatten_parameters()
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/nn/modules/rnn.py", line 285, in flatten_parameters
+    torch._cudnn_rnn_flatten_weight(
+RuntimeError: params_from.size(0) == params_to.size(0) INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/native/cudnn/RNN.cpp":1011, please report a bug to PyTorch. number of layers mismatch
+===== run 3 =====
+torch: 2.11.0+cu130
+cuda: 13.0
+device: cuda:0
+before bidirectional: False
+flat_weights: 4
+after bidirectional: True
+flat_weights: 4
+Traceback (most recent call last):
+  File "/workspace/TitanFuzz/TensorGuard-Repros/repros/pytorch/rnnbase_flatten_internal_assert/repro_lstm_bidirectional_flatten.py", line 20, in <module>
+    lstm.flatten_parameters()
+  File "/root/miniconda/envs/titanfuzz/lib/python3.10/site-packages/torch/nn/modules/rnn.py", line 285, in flatten_parameters
+    torch._cudnn_rnn_flatten_weight(
+RuntimeError: params_from.size(0) == params_to.size(0) INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/native/cudnn/RNN.cpp":1011, please report a bug to PyTorch. number of layers mismatch
