@@ -1,0 +1,15 @@
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1028.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1134.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1136.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1147.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1192.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1203.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1204.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1235.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.conv3d_1245.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.ctc_loss_222.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.ctc_loss_263.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.ctc_loss_269.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.ctc_loss_283.txt:14:VarInconsistentCatch 
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_conv_ctc_first30_txt/torch.nn.functional.ctc_loss_358.txt:14:VarInconsistentCatch 
