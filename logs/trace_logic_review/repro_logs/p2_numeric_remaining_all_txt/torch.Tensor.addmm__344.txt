@@ -1,0 +1,52 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439205.122908  985194 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781439205.161370  985194 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439206.125551  985194 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 4
+Last lines before problem: 
+1 > 
+2 > mat1 = torch.tensor([[3.0, 4.0], [5.0, 6.0]])
+3 > mat2 = torch.tensor([[5.0, 6.0], [7.0, 8.0]])
+4 > torch.Tensor.addmm_(mat1, mat2, mat1.t())
+VarInconsistentCatch 
+diff:[   'mat1',
+    'PassFlattenCallTempVar1',
+    'PassFlattenCallTempVar2',
+    'PassLogTorchIntermediateTempVar4_PassFlattenCallTempVar2']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([[  42.,  819.],
+        [  65., 5787.]]),
+    'PassFlattenCallTempVar2': tensor([[  42.,   65.],
+        [ 819., 5787.]]),
+    'PassLogTorchIntermediateTempVar1_mat1': tensor([[3., 4.],
+        [5., 6.]]),
+    'PassLogTorchIntermediateTempVar2_mat2': tensor([[5., 6.],
+        [7., 8.]]),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar1': tensor([[3., 5.],
+        [4., 6.]]),
+    'PassLogTorchIntermediateTempVar4_PassFlattenCallTempVar2': tensor([[  42.,   65.],
+        [ 819., 5787.]]),
+    'mat1': tensor([[  42.,   65.],
+        [ 819., 5787.]]),
+    'mat2': tensor([[5., 6.],
+        [7., 8.]])}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([[42., 58.],
+        [65., 89.]], device='cuda:0'),
+    'PassFlattenCallTempVar2': tensor([[42., 65.],
+        [58., 89.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_mat1': tensor([[3., 4.],
+        [5., 6.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_mat2': tensor([[5., 6.],
+        [7., 8.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3_PassFlattenCallTempVar1': tensor([[3., 5.],
+        [4., 6.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_PassFlattenCallTempVar2': tensor([[42., 65.],
+        [58., 89.]], device='cuda:0'),
+    'mat1': tensor([[42., 65.],
+        [58., 89.]], device='cuda:0'),
+    'mat2': tensor([[5., 6.],
+        [7., 8.]], device='cuda:0')}

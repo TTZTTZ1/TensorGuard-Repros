@@ -1,0 +1,248 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439230.421845  987391 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781439230.459009  987391 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439231.427950  987391 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+:5: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:11: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:9: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:23: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:5: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:11: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:17: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:20: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:9: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:23: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:37: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:44: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:9: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:23: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:37: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:44: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:5: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:8: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:11: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:17: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:20: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:9: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:16: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:23: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:37: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+:44: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+
+FrameworkSingle DuelFinished 420 Problem since line 8
+Last lines before problem: 
+5 > _input_tensor = torch.tensor(_input_tensor, requires_grad=True).type(torch.FloatTensor)
+6 > _input_tensor = torch.tensor(_input_tensor, requires_grad=True)
+7 > _input_tensor = torch.tensor(_input_tensor).type(torch.FloatTensor)
+8 > (U, s, Vh) = torch.Tensor.svd(torch.t(_input_tensor))
+VarInconsistentCatch 
+diff:['U', 'Vh']
+CPU:
+{   'PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], requires_grad=True),
+    'PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassFlattenCallTempVar3': tensor([[-0.0070,  0.0302,  1.8092,  ..., -0.6753, -0.2831, -0.7562],
+        [ 0.5044,  0.3826,  0.4352,  ..., -0.8674, -0.3479, -1.0334],
+        [ 0.6704, -0.5131,  2.6453,  ...,  0.4692, -0.7045, -1.5658],
+        [-0.3829,  0.7104,  0.2654,  ...,  0.1671, -0.7386, -1.7346]]),
+    'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassLogTorchIntermediateTempVar2__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassLogTorchIntermediateTempVar3__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassLogTorchIntermediateTempVar4_PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar5__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar6__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassLogTorchIntermediateTempVar8__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    'PassLogTorchIntermediateTempVar9_PassFlattenCallTempVar3': tensor([[-0.0070,  0.0302,  1.8092,  ..., -0.6753, -0.2831, -0.7562],
+        [ 0.5044,  0.3826,  0.4352,  ..., -0.8674, -0.3479, -1.0334],
+        [ 0.6704, -0.5131,  2.6453,  ...,  0.4692, -0.7045, -1.5658],
+        [-0.3829,  0.7104,  0.2654,  ...,  0.1671, -0.7386, -1.7346]]),
+    'U': tensor([[ 0.1379,  0.2848, -0.3268, -0.8905],
+        [ 0.7876,  0.3092,  0.5324,  0.0255],
+        [ 0.3387, -0.9060,  0.0372, -0.2510],
+        [ 0.4960,  0.0485, -0.7800,  0.3785]]),
+    'Vh': tensor([[ 0.0126, -0.0148,  0.0190, -0.0098],
+        [ 0.0141,  0.0197, -0.0121,  0.0127],
+        [ 0.0471, -0.0544, -0.0149, -0.0724],
+        ...,
+        [-0.0155, -0.0275, -0.0113,  0.0176],
+        [-0.0267,  0.0130,  0.0146,  0.0047],
+        [-0.0671,  0.0251,  0.0316,  0.0128]]),
+    '_input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]]),
+    's': tensor([34.4241, 31.8613, 31.3679, 29.8991])}
+GPU:
+{   'PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0',
+       requires_grad=True),
+    'PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassFlattenCallTempVar3': tensor([[-0.0070,  0.0302,  1.8092,  ..., -0.6753, -0.2831, -0.7562],
+        [ 0.5044,  0.3826,  0.4352,  ..., -0.8674, -0.3479, -1.0334],
+        [ 0.6704, -0.5131,  2.6453,  ...,  0.4692, -0.7045, -1.5658],
+        [-0.3829,  0.7104,  0.2654,  ...,  0.1671, -0.7386, -1.7346]],
+       device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar3__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_PassFlattenCallTempVar1': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0',
+       grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar5__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0',
+       grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar6__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0',
+       grad_fn=<CloneBackward0>),
+    'PassLogTorchIntermediateTempVar7_PassFlattenCallTempVar2': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar8__input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar9_PassFlattenCallTempVar3': tensor([[-0.0070,  0.0302,  1.8092,  ..., -0.6753, -0.2831, -0.7562],
+        [ 0.5044,  0.3826,  0.4352,  ..., -0.8674, -0.3479, -1.0334],
+        [ 0.6704, -0.5131,  2.6453,  ...,  0.4692, -0.7045, -1.5658],
+        [-0.3829,  0.7104,  0.2654,  ...,  0.1671, -0.7386, -1.7346]],
+       device='cuda:0'),
+    'U': tensor([[ 0.1379, -0.2849,  0.3268,  0.8905],
+        [ 0.7876, -0.3092, -0.5324, -0.0255],
+        [ 0.3387,  0.9060, -0.0372,  0.2510],
+        [ 0.4960, -0.0486,  0.7800, -0.3785]], device='cuda:0'),
+    'Vh': tensor([[ 0.0126,  0.0148, -0.0189,  0.0098],
+        [ 0.0141, -0.0197,  0.0121, -0.0127],
+        [ 0.0471,  0.0544,  0.0149,  0.0724],
+        ...,
+        [-0.0155,  0.0275,  0.0113, -0.0176],
+        [-0.0267, -0.0130, -0.0146, -0.0047],
+        [-0.0671, -0.0251, -0.0316, -0.0128]], device='cuda:0'),
+    '_input_tensor': tensor([[-0.0070,  0.5044,  0.6704, -0.3829],
+        [ 0.0302,  0.3826, -0.5131,  0.7104],
+        [ 1.8092,  0.4352,  2.6453,  0.2654],
+        ...,
+        [-0.6753, -0.8674,  0.4692,  0.1671],
+        [-0.2831, -0.3479, -0.7045, -0.7386],
+        [-0.7562, -1.0334, -1.5658, -1.7346]], device='cuda:0'),
+    's': tensor([34.4241, 31.8612, 31.3679, 29.8991], device='cuda:0')}

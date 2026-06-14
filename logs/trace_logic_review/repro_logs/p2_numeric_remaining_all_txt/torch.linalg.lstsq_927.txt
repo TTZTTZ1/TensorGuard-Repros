@@ -1,0 +1,33 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439365.886625  999009 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781439365.925879  999009 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439366.914956  999009 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 5
+Last lines before problem: 
+2 > A = torch.tensor([[1.0, 2.0], [3.0, 4.0]])
+3 > B = torch.tensor([5.0, 6.0])
+4 > solution = torch.linalg.lstsq(A, B, True)
+5 > solution = solution[0]
+VarInconsistentCatch 
+diff:['solution', 'PassLogTorchIntermediateTempVar4_solution']
+CPU:
+{   'A': tensor([[1., 2.],
+        [3., 4.]]),
+    'B': tensor([5., 6.]),
+    'PassLogTorchIntermediateTempVar1_A': tensor([[1., 2.],
+        [3., 4.]]),
+    'PassLogTorchIntermediateTempVar2_B': tensor([5., 6.]),
+    'PassLogTorchIntermediateTempVar4_solution': tensor([0.7770, 1.0878]),
+    'solution': tensor([0.7770, 1.0878])}
+GPU:
+{   'A': tensor([[1., 2.],
+        [3., 4.]], device='cuda:0'),
+    'B': tensor([5., 6.], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar1_A': tensor([[1., 2.],
+        [3., 4.]], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar2_B': tensor([5., 6.], device='cuda:0'),
+    'PassLogTorchIntermediateTempVar4_solution': tensor([-4.0000,  4.5000], device='cuda:0'),
+    'solution': tensor([-4.0000,  4.5000], device='cuda:0')}

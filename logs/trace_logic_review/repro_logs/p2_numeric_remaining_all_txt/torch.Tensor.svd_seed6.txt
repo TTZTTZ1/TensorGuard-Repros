@@ -1,0 +1,43 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439322.813573  995548 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1781439322.852511  995548 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781439323.829014  995548 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+
+FrameworkSingle DuelFinished 420 Problem since line 2
+Last lines before problem: 
+1 > _input_tensor = torch.randn(3, 4)
+2 > (U, S, Vh) = torch.Tensor.svd(_input_tensor, some=True, compute_uv=True)
+VarInconsistentCatch 
+diff:['U', 'Vh']
+CPU:
+{   'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-1.6977,  0.6374,  0.0781, -0.4140],
+        [ 1.5172,  0.0473,  0.8435, -0.2261],
+        [ 0.0345, -0.3422,  0.6827, -0.8155]]),
+    'S': tensor([2.3891, 1.3105, 0.5970]),
+    'U': tensor([[ 0.7223, -0.4827, -0.4952],
+        [-0.6837, -0.3912, -0.6160],
+        [-0.1036, -0.7835,  0.6126]]),
+    'Vh': tensor([[-0.9490,  0.1518, -0.1219],
+        [ 0.1940, -0.0443, -0.9287],
+        [-0.2474, -0.6887, -0.2345],
+        [-0.0251,  0.7076, -0.2603]]),
+    '_input_tensor': tensor([[-1.6977,  0.6374,  0.0781, -0.4140],
+        [ 1.5172,  0.0473,  0.8435, -0.2261],
+        [ 0.0345, -0.3422,  0.6827, -0.8155]])}
+GPU:
+{   'PassLogTorchIntermediateTempVar1__input_tensor': tensor([[-1.6977,  0.6374,  0.0781, -0.4140],
+        [ 1.5172,  0.0473,  0.8435, -0.2261],
+        [ 0.0345, -0.3422,  0.6827, -0.8155]], device='cuda:0'),
+    'S': tensor([2.3891, 1.3105, 0.5970], device='cuda:0'),
+    'U': tensor([[ 0.7223,  0.4827,  0.4952],
+        [-0.6837,  0.3912,  0.6160],
+        [-0.1036,  0.7835, -0.6126]], device='cuda:0'),
+    'Vh': tensor([[-0.9490, -0.1518,  0.1219],
+        [ 0.1940,  0.0443,  0.9287],
+        [-0.2474,  0.6887,  0.2345],
+        [-0.0251, -0.7076,  0.2603]], device='cuda:0'),
+    '_input_tensor': tensor([[-1.6977,  0.6374,  0.0781, -0.4140],
+        [ 1.5172,  0.0473,  0.8435, -0.2261],
+        [ 0.0345, -0.3422,  0.6827, -0.8155]], device='cuda:0')}

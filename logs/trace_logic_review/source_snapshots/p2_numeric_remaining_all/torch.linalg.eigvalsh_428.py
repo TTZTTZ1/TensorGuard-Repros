@@ -1,0 +1,10 @@
+
+A = torch.tensor([[4.0, 3.0], [6.0, 3.0]])
+eigenvalues = torch.linalg.eigvalsh(A)
+eigenvalues = torch.stack((eigenvalues, torch.ones(len(eigenvalues), device=A.device)))
+eigenvalues = torch.linalg.inv(eigenvalues)
+eigenvalues = torch.clamp((eigenvalues - torch.eye(len(eigenvalues))), min=0, max=None)
+eigenvalues = torch.linalg.inv(eigenvalues)
+eigenvalues = (eigenvalues - eigenvalues.mean(axis=1, keepdims=True))
+eigenvalues = (eigenvalues / torch.sum(eigenvalues))
+eigenvalues = eigenvalues.clamp(min=(- 2), max=6)
