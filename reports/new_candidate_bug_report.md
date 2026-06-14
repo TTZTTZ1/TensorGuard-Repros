@@ -18,6 +18,7 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | P2 remaining numeric next30 rejected/noise | 0 accepted | 30 logs + source snapshots + FFT deep-dive | FFT differences are expected float32 CPU/GPU numeric variance; `pinverse` divide-by-zero and overflow cases rejected/noise |
 | P2 final output balanced51 rejected/noise | 0 accepted | 51 logs + source snapshots | Quantized/sparse outputs hit TitanFuzz comparator limitations; dropout randomness and generated-code errors rejected |
 | P2 GPU exec remaining rejected/noise | 0 accepted | 13 logs + source snapshots | 11 reruns report `No problem found`; 2 stochastic APIs report `InternalRandomFail` |
+| P2 sparse all rejected/noise | 0 accepted | 1322 logs + source snapshots | 1317 SparseCPU `eq` comparator failures and 5 SparseCsr unsupported-layout comparator failures |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -539,10 +540,65 @@ Conclusion:
 The P2 `gpu_exec_or_cuda_assert_mismatch` category is now fully reviewed by API family.
 The only accepted candidate from that category remains `fractional_max_pool3d`.
 
+### P2 Sparse All 1322
+
+No new accepted candidate was added from this batch.
+This batch closes the P2 `sparse_logic_inconsistency_caveat` category by API family.
+
+Reviewed logs and source snapshots:
+
+```text
+logs/trace_logic_review/queues/p2_sparse_all.txt
+logs/trace_logic_review/repro_logs/p2_sparse_all_txt/
+logs/trace_logic_review/repro_logs/p2_sparse_all_summary.txt
+logs/trace_logic_review/source_snapshots/p2_sparse_all/
+```
+
+Summary:
+
+| result | count | source-level conclusion |
+|---|---:|---|
+| Rejected / SparseCPU comparator limitation | 1317 | `Tensor.to_sparse`, `sparse.addmm`, `sparse.log_softmax`, `sparse.mm`, `sparse.softmax`, `sparse.sum`, and `sparse_coo_tensor` logs fail because TitanFuzz attempts `aten::eq.Tensor` on `SparseCPU`; the failure happens before later sparse operations are meaningfully checked |
+| Rejected / SparseCsr comparator limitation | 5 | `sparse_csr_tensor` logs fail with `ComparisonFail unsupported tensor layout: SparseCsr`; the sources create invalid-looking CSR tensors, but the logged failure is still the checker layout path, not a native crash |
+
+API distribution:
+
+```text
+torch.Tensor.to_sparse:       206
+torch.sparse.addmm:           206
+torch.sparse.log_softmax:     225
+torch.sparse.mm:               46
+torch.sparse.softmax:         204
+torch.sparse.sum:             206
+torch.sparse_coo_tensor:      224
+torch.sparse_csr_tensor:        5
+```
+
+Representative source review:
+
+```text
+torch.sparse.mm_1.py:
+  mat1 = torch.sparse_coo_tensor(...)
+  mat2 = torch.sparse_coo_tensor(...)
+  _result = torch.sparse.mm(mat1, mat2)
+  The log stops at sparse tensor creation because the checker tries SparseCPU equality.
+
+torch.sparse_csr_tensor_1014.py:
+  row_indices = torch.arange(4)
+  sparse_tensor = torch.sparse_csr_tensor(..., size=(2, 2))
+  The later mm operations are present in source, but the log stops at CSR creation with unsupported layout.
+```
+
+Conclusion:
+
+This batch should not be counted as PyTorch bugs.
+It did not reproduce the earlier strong sparse crashes such as `free(): invalid pointer` or `free(): invalid next size`.
+Future sparse review needs a semantic sparse comparator or targeted replay of known crash-like sources, not the generic TitanFuzz equality path.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to continue with remaining numeric or sparse/API clusters.
+The next step is to continue with remaining P2 numeric clusters.
 Avoid re-running already explained high-noise families unless using invariant/tolerance-aware checkers.
 
 Suggested next API groups:
@@ -551,7 +607,6 @@ Suggested next API groups:
 torch.linalg.cond / lstsq / eigvalsh
 torch.pinverse
 torch.nn.functional.conv2d / conv_transpose2d
-torch.sparse.mm / sparse_csr_tensor / sparse_coo_tensor
 remaining strong_crash / internal_assert clusters not yet source-reviewed
 ```
 
