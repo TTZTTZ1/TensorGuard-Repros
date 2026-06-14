@@ -99,6 +99,8 @@ Results/torch/valid/torch.nn.functional.fractional_max_pool3d_614.py
 
 ```text
 repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3d_584.py
+repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3d_c65536.py
+repros/pytorch/fractional_max_pool3d_invalid_argument/repro_fractional_max_pool3d_5d_c65536.py
 ```
 
 **Evidence logs:**
@@ -109,6 +111,10 @@ logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_584_3runs.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/sweep_cpu.txt
 logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/sweep_cuda.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_c65536.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_c65536.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cpu_5d_c65536.txt
+logs/trace_logic_review/repro_logs/p2_fractional_max_pool3d_txt/cuda_5d_c65536.txt
 ```
 
 **Observed behavior:**
@@ -151,17 +157,33 @@ C=70000: AcceleratorError: CUDA error: invalid argument
 C=76800: AcceleratorError: CUDA error: invalid argument
 ```
 
+**Minimal C=65536 repros:**
+
+4D unbatched input:
+
+```text
+CPU  x.shape: (65536, 4, 4, 4)       -> ok, y.shape: (65536, 1, 1, 1)
+CUDA x.shape: (65536, 4, 4, 4)       -> AcceleratorError: CUDA error: invalid argument
+```
+
+5D batched input:
+
+```text
+CPU  x.shape: (1, 65536, 4, 4, 4)    -> ok, y.shape: (1, 65536, 1, 1, 1)
+CUDA x.shape: (1, 65536, 4, 4, 4)    -> AcceleratorError: CUDA error: invalid argument
+```
+
 **Current root-cause hypothesis:**
 
-The failure is strongly tied to the unbatched channel dimension crossing `65535`.
-`x` is shaped as `(C, D, H, W)`, and CUDA starts failing at `C=65536`.
+The failure is strongly tied to the channel dimension crossing `65535`.
+CUDA starts failing at `C=65536` for both 4D unbatched input and 5D batched input.
 This looks like a CUDA kernel launch/grid-dimension boundary or a missing CUDA-side validation path.
 CPU accepts the same shape and computes a result.
 
 **Caveat:**
 
 This candidate is stronger than a `torch2cuda.py` comparison artifact because it was independently reproduced.
-However, it uses a very large unbatched channel dimension. It should be presented honestly as a boundary-condition CPU/CUDA discrepancy or CUDA error-handling issue, not as a common small-shape model bug.
+However, it uses a very large channel dimension. It should be presented honestly as a boundary-condition CPU/CUDA discrepancy or CUDA error-handling issue, not as a common small-shape model bug.
 
 ## P1 Non-RNNBase Review
 
@@ -205,18 +227,18 @@ These are not evidence of actual CPU/CUDA output differences. They show that the
 Next, finish packaging N1-002:
 
 ```text
-Create a minimal C=65536 repro:
-CPU: F.fractional_max_pool3d(torch.randn(65536, 4, 4, 4), kernel_size=(2,2,2), output_size=(1,1,1)) succeeds
-CUDA: the same call raises CUDA invalid argument
+Run 3 repeats for:
+1. repro_fractional_max_pool3d_c65536.py cuda:0
+2. repro_fractional_max_pool3d_5d_c65536.py cuda:0
 ```
 
-Also test a 5D version once:
+Optionally test the 5D control case:
 
 ```text
-x.shape = (1, 65536, 4, 4, 4)
+x.shape = (1, 65535, 4, 4, 4)
 ```
 
-If the 5D version also fails at the same boundary, the issue is cleaner. If only the 4D unbatched version fails, report that nuance.
+If 5D `C=65535` succeeds and 5D `C=65536` fails, N1-002 is clean enough to send to the senior student as a strong boundary candidate.
 
 After that, continue with P2 `numeric_consistency_check_needed`, but skip alias-heavy APIs first.
 
