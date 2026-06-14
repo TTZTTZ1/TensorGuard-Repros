@@ -1,0 +1,11 @@
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.LongStorage_247.txt:10:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.Tensor.nanquantile_208.txt:8:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.Tensor.new_full_537.txt:8:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.broadcast_shapes_935.txt:8:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.index_select_1111.txt:20:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.lu_752.txt:17:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.nn.functional.binary_cross_entropy_1506.txt:8:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.nn.utils.rnn.pack_padded_sequence_1517.txt:9:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.nn.utils.rnn.pack_sequence_1030.txt:8:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.take_along_dim_1255.txt:14:FrameworkSingle DuelFailed 420 No problem found
+TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_gpu_exec_remaining_txt/torch.tril_indices_148.txt:9:FrameworkSingle DuelFailed 420 No problem found

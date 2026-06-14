@@ -1,0 +1,14 @@
+source	copy
+Results/torch/valid/torch.LongStorage_247.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.LongStorage_247.py
+Results/torch/valid/torch.Tensor.bernoulli__1470.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.Tensor.bernoulli__1470.py
+Results/torch/valid/torch.Tensor.nanquantile_208.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.Tensor.nanquantile_208.py
+Results/torch/valid/torch.Tensor.new_full_537.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.Tensor.new_full_537.py
+Results/torch/valid/torch.broadcast_shapes_935.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.broadcast_shapes_935.py
+Results/torch/valid/torch.index_select_1111.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.index_select_1111.py
+Results/torch/valid/torch.lu_752.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.lu_752.py
+Results/torch/valid/torch.nn.functional.binary_cross_entropy_1506.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.nn.functional.binary_cross_entropy_1506.py
+Results/torch/valid/torch.nn.functional.gumbel_softmax_326.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.nn.functional.gumbel_softmax_326.py
+Results/torch/valid/torch.nn.utils.rnn.pack_padded_sequence_1517.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.nn.utils.rnn.pack_padded_sequence_1517.py
+Results/torch/valid/torch.nn.utils.rnn.pack_sequence_1030.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.nn.utils.rnn.pack_sequence_1030.py
+Results/torch/valid/torch.take_along_dim_1255.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.take_along_dim_1255.py
+Results/torch/valid/torch.tril_indices_148.py	TensorGuard-Repros/logs/trace_logic_review/source_snapshots/p2_gpu_exec_remaining/torch.tril_indices_148.py
