@@ -10,12 +10,12 @@ The earlier alias / invalid-input candidates were reviewed by the senior student
 | bucket | root-cause families | log/testcase count | conclusion |
 |---|---:|---:|---|
 | Newly accepted / confirmed candidates | 2 | RNNBase first 20 share one assertion; `fractional_max_pool3d` CUDA failure reproduced 3 times and sweep found boundary at `C=65536` | Keep for senior review |
-| Pending candidates | 1 | FFT numeric mismatch family | Independent check narrowed this to 5 loose-tolerance failures; needs deep-dive before accept/reject |
+| Pending candidates | 0 | - | - |
 | P1 non-RNNBase rejected/noise | 0 accepted | 11 logs | Tool crash, OOM, syntax/generated-code issues |
 | P2 first batch rejected/noise | 0 accepted | 53 logs | Comparator limitations, no problem found, random behavior, syntax |
 | P2 numeric clean rejected/noise | 0 accepted | 60 logs | `eigh`/`svd` vector sign or basis ambiguity, plus 2 generated syntax errors |
 | P2 conv/ctc first30 rejected/noise | 0 accepted | 30 logs + independent `conv3d` check | `conv3d` explained by TF32/floating-point tolerance; `ctc_loss` invalid-target cases rejected; `conv_transpose3d` no problem |
-| P2 remaining numeric next30 reviewed | 0 accepted, 1 pending | 30 logs + source snapshots | FFT numeric family pending; `pinverse` divide-by-zero and overflow cases rejected/noise |
+| P2 remaining numeric next30 rejected/noise | 0 accepted | 30 logs + source snapshots + FFT deep-dive | FFT differences are expected float32 CPU/GPU numeric variance; `pinverse` divide-by-zero and overflow cases rejected/noise |
 
 Counting rule: multiple generated programs are counted as one candidate if they share the same root cause.
 
@@ -358,8 +358,8 @@ These `conv3d` logs are best treated as TF32/cuDNN/CPU floating-point-path diffe
 
 ### P2 Remaining Numeric Next 30
 
-No new accepted candidate was added from this batch yet.
-One FFT numeric family is pending a deeper numeric validation.
+No new accepted candidate was added from this batch.
+The FFT numeric family was independently checked and rejected as a strong bug candidate.
 
 Reviewed logs and source snapshots:
 
@@ -373,7 +373,7 @@ Summary:
 
 | result | count | source-level conclusion |
 |---|---:|---|
-| Pending numeric validation | 24 | `hfft` / `ihfft` / `ifftn` cases are FFT-heavy legal numeric programs; logs show raw output differences but need tolerance-aware validation |
+| Rejected / expected numeric variance | 24 | `hfft` / `ihfft` / `ifftn` cases are FFT-heavy legal numeric programs; independent checks show matching finite masks, tiny normalized error, and float64 agreement |
 | Rejected/no problem | 2 | `torch.fft.rfft_1032` and `torch.fft.rfft_693` report `No problem found` |
 | Rejected / generated numeric overflow | 3 | `rfft_1040`, `rfft_1054`, and `rfft_613` use `cosh` / `sinh` / `exp` on large values, producing `inf` before or around the FFT-relevant result |
 | Rejected / divide-by-zero amplification | 1 | `torch.Tensor.pinverse_721` divides pseudo-inverse values by an input tensor containing zero, turning tiny CPU/GPU sign differences into `+inf` versus `-inf` |
@@ -420,26 +420,48 @@ The remaining loose-tolerance failures are:
   torch.fft.ihfft_773
 ```
 
-This is not enough to report a bug yet because FFT CPU/GPU implementations can have different rounding behavior, and several differences occur near very small output components.
-However, the `hfft` and selected `ihfft` cases still need a deeper normalized-error check before rejection.
-
-Deep-dive checker added:
+Deep-dive checker:
 
 ```text
 scripts/check_fft_numeric_deep_dive.py
 ```
 
+Deep-dive result:
+
+```text
+logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_deep_dive.txt
+```
+
+Findings:
+
+```text
+The five loose-tolerance failures all have matching finite masks.
+For float32, pointwise absolute errors are visible but L2 relative error is around 1e-7:
+  hfft_570:   l2_rel=4.94e-7
+  hfft_779:   l2_rel=4.69e-7
+  hfft_782:   l2_rel=4.69e-7
+  ihfft_1268: l2_rel=9.10e-7
+  ihfft_773:  l2_rel=1.44e-7
+For float64, all five cases pass 1e-5 and have L2 relative error around 1e-15.
+```
+
+Conclusion:
+
+These FFT cases are best treated as expected CPU/GPU float32 numerical variance, not reportable PyTorch bugs.
+
 ## Next Review Target
 
 N1-002 is now clean enough to send to the senior student as a strong boundary candidate.
-The next step is to run the FFT deep-dive checker.
-Do not accept the FFT family as a bug unless it shows finite-mask mismatch, large normalized error, or a clear float64 CPU/GPU discrepancy that cannot be explained by expected FFT rounding.
+The next step is to continue with remaining non-alias numeric or strong-crash/API clusters.
+Avoid re-running already explained high-noise families unless using invariant/tolerance-aware checkers.
 
-Run on the server:
+Suggested next API groups:
 
-```bash
-python TensorGuard-Repros/scripts/check_fft_numeric_deep_dive.py \
-  > TensorGuard-Repros/logs/trace_logic_review/repro_logs/p2_remaining_numeric_next30_txt/fft_numeric_deep_dive.txt 2>&1
+```text
+torch.linalg.cond / lstsq / eigvalsh
+torch.pinverse
+torch.nn.functional.conv2d / conv_transpose2d
+remaining strong_crash / internal_assert clusters not yet source-reviewed
 ```
 
 Skip `torch.Tensor.addmm_` for now because the already reviewed in-place/alias families are easy to misclassify and were disputed by the senior student.
